@@ -4,18 +4,18 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
-    "@appbaseio/reactivesearch": "^3.24.3",
-    "@testing-library/react": "^12.1.2",
+    "@appbaseio/reactivesearch": "^3.31.0",
+    "@testing-library/react": "^13.2.0",
     "date-fns": "^2.16.1",
     "eslint-config-react-app": "^7.0.1",
-    "hds-design-tokens": "^2.0.0",
-    "hds-react": "^2.0.0",
+    "hds-design-tokens": "^1.6.0",
+    "hds-react": "^1.6.0",
     "i18next": "^21.4.0",
     "i18next-browser-languagedetector": "^6.1.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "react-i18next": "^11.7.3",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^5.0.1"
   },
   "scripts": {
     "start": "BROWSER=none react-scripts start",
@@ -46,7 +46,6 @@
     "@types/react": "^17.0.34",
     "@types/react-dom": "^17.0.11",
     "@types/react-router-dom": "^5.1.5",
-    "eslint": "^7.0.1",
     "husky": ">=4",
     "lint-staged": ">=10",
     "prettier": "^2.1.2",
