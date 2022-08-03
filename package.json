@@ -4,7 +4,7 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
-    "@appbaseio/reactivesearch": "^3.25.0",
+    "@appbaseio/reactivesearch": "^3.25.1",
     "@emotion/styled": "^11.10.0",
     "date-fns": "^2.16.1",
     "eslint-config-react-app": "^7.0.1",
@@ -39,6 +39,7 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",
     "@trivago/prettier-plugin-sort-imports": "^3.3.0",
