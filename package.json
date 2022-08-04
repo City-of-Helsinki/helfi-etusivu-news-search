@@ -22,9 +22,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "prepare": "husky install",
-    "copy-files": "mkdir -p dist/react && cp build/static/js/main.*.chunk.js dist/react/helfi-etusivu-news-search-main.js && cp build/static/js/runtime-main.*.js dist/react/helfi-etusivu-news-search-runtime-main.js && cp build/static/js/[0-9]*.*.chunk.js dist/react/helfi-etusivu-news-search-vendors.js && cp build/static/js/*.map dist/react/ && cp build/static/css/main.*.css dist/react/helfi-etusivu-news-search-main.css && cp build/static/css/*.map dist/react",
-    "dist": "npm run build && rimraf dist && npm run copy-files",
-    "create-release": "npm run build && npm run dist && cd dist && zip -r helfi-etusivu-news-search.zip react"
+    "create-release": "npm run build && cd ./build/static/js && zip -r ../../../helfi-etusivu-news-search.zip ./*.js"
   },
   "browserslist": {
     "production": [
