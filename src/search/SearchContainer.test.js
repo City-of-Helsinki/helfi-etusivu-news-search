@@ -1,6 +1,6 @@
-import {render, screen} from '@testing-library/react';
+import { renderWithStore } from '../test/test-utils';
 import SearchContainer from './SearchContainer';
 
 it('Renders', () => {
-  render(<SearchContainer />);
+  renderWithStore(<SearchContainer />);
 });

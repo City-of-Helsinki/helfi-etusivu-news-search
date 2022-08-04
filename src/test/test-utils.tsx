@@ -10,7 +10,7 @@ import mockResponse from './mockResponse.json';
 export const renderWithStore = (ui: ReactElement, renderOptions = {}) => {
   const Wrapper: FC<{ children: ReactNode }> = ({ children }) => {
     return (
-      <ReactiveBase app="testing" url="https://testing.com">
+      <ReactiveBase app="testing" url="https://helfi-etusivu.docker.so/fi">
         {children}
       </ReactiveBase>
     );
@@ -20,7 +20,7 @@ export const renderWithStore = (ui: ReactElement, renderOptions = {}) => {
 };
 
 export const server = setupServer(
-  rest.post('https://testing.com/testing/_msearch', (req, res, ctx) => {
+  rest.post('https://helfi-etusivu.docker.so/fi/testing/_msearch', (req, res, ctx) => {
     return res(ctx.json(mockResponse));
   })
 );
