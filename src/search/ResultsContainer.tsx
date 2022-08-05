@@ -8,7 +8,9 @@ const ResultsContainer = () => {
   const getHeaderText = () => {
     // @todo implement filter check
     const filterApplied = false;
-    const text = filterApplied ? 'News based on your choices' : 'All news';
+    const text = filterApplied
+      ? Drupal.t('News based on your choices')
+      : Drupal.t('All news items', {}, { context: 'News archive heading' });
 
     return text;
   };
@@ -16,7 +18,7 @@ const ResultsContainer = () => {
   return (
     <div>
       <div>
-        <h3>{getHeaderText()}</h3>
+        <h2 className="news-archive__heading">{getHeaderText()}</h2>
       </div>
       <ReactiveList
         className="news-container"
@@ -25,12 +27,13 @@ const ResultsContainer = () => {
         pages={3}
         pagination={true}
         render={({ data }: any) => (
-          <ReactiveList.ResultCardsWrapper className="results-wrapper">
+          <ul className="news-listing news-listing--teasers">
             {data.map((item: Result) => (
               <ResultCard key={item._id} {...item} />
             ))}
-          </ReactiveList.ResultCardsWrapper>
+          </ul>
         )}
+        showResultStats={false}
         size={10}
       />
     </div>

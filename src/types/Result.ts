@@ -1,11 +1,13 @@
 export interface Result {
-  changed: Array<number>;
-  field_main_image: Array<string>;
-  field_news_groups: Array<string>;
-  field_news_item_tags: Array<string>;
-  field_news_neighbourhoods: Array<string>;
-  highlight: Array<string>;
-  published_at: Array<number>;
+  alt?: Array<string>;
+  changed?: Array<number>;
+  field_main_image?: Array<string>;
+  field_news_groups?: Array<string>;
+  field_news_item_tags?: Array<string>;
+  field_news_neighbourhoods?: Array<string>;
+  field_photographer?: Array<string>;
+  highlight?: Array<string>;
+  published_at?: Array<number>;
   title: Array<string>;
   url: Array<string>;
   uuid: Array<string>;
