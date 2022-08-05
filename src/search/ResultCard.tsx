@@ -2,8 +2,12 @@ import { format } from 'date-fns';
 
 import Result from '../types/Result';
 
-const ResultCard = ({ field_main_image, title, published_at, url }: Result) => {
+const ResultCard = ({ alt, field_main_image, field_photographer, title, published_at, url }: Result) => {
   const getPublished = () => {
+    if (!published_at || !published_at.length) {
+      return null;
+    }
+
     const published = new Date(published_at[0] * 1000);
     const htmlTime = `${format(published, 'Y-MM-dd')}T${format(published, 'HH:mm')}`;
     const visibleTime = format(published, 'd.M.Y H:mm');
@@ -15,21 +19,32 @@ const ResultCard = ({ field_main_image, title, published_at, url }: Result) => {
     );
   };
 
+  const getImage = () => {
+    if (!field_main_image || !field_main_image.length) {
+      return null;
+    }
+
+    return (
+      <img
+        src={field_main_image[0]}
+        alt={alt && alt.length ? alt[0] : ''}
+        data-photographer={field_photographer && field_photographer.length ? field_photographer[0] : null}
+      />
+    );
+  };
+
   return (
-    <div>
-      <div className="news-listing__content">
-        <h4>
-          <a href={url[0]}>{title}</a>
-        </h4>
-        {published_at && published_at.length && getPublished()}
+    <li className="news-listing__item">
+      <div className="news-listing__content news-listing__content--with-image" role="article">
+        <h3 className="news-listing__title">
+          <a href={url[0]} className="news-listing__link">
+            {title}
+          </a>
+        </h3>
+        {getPublished()}
       </div>
-      {field_main_image && field_main_image.length && (
-        <div className="news-listing__img">
-          {/* @TODO: get image alt value from Drupal */}
-          <img src={field_main_image[0]} alt="" />
-        </div>
-      )}
-    </div>
+      {field_main_image && field_main_image.length && <div className="news-listing__img">{getImage()}</div>}
+    </li>
   );
 };
 

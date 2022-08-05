@@ -3,7 +3,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Settings from './enum/Settings';
-import './i18n';
 import SearchContainer from './search/SearchContainer';
 import * as serviceWorker from './serviceWorker';
 
