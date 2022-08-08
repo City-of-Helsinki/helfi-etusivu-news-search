@@ -1,6 +1,7 @@
 export interface Result {
   alt?: Array<string>;
   changed?: Array<number>;
+  field_main_image_caption?: Array<string>;
   field_main_image?: Array<string>;
   field_news_groups?: Array<string>;
   field_news_item_tags?: Array<string>;

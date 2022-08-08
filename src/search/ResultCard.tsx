@@ -2,7 +2,15 @@ import { format } from 'date-fns';
 
 import Result from '../types/Result';
 
-const ResultCard = ({ alt, field_main_image, field_photographer, title, published_at, url }: Result) => {
+const ResultCard = ({
+  alt,
+  field_main_image_caption,
+  field_main_image,
+  field_photographer,
+  title,
+  published_at,
+  url,
+}: Result) => {
   const getPublished = () => {
     if (!published_at || !published_at.length) {
       return null;
@@ -19,6 +27,17 @@ const ResultCard = ({ alt, field_main_image, field_photographer, title, publishe
     );
   };
 
+  const getAlt = () => {
+    if (field_main_image_caption && field_main_image_caption.length) {
+      return field_main_image_caption[0];
+    }
+    if (alt && alt.length) {
+      return alt[0];
+    }
+
+    return '';
+  };
+
   const getImage = () => {
     if (!field_main_image || !field_main_image.length) {
       return null;
@@ -27,7 +46,7 @@ const ResultCard = ({ alt, field_main_image, field_photographer, title, publishe
     return (
       <img
         src={field_main_image[0]}
-        alt={alt && alt.length ? alt[0] : ''}
+        alt={getAlt()}
         data-photographer={field_photographer && field_photographer.length ? field_photographer[0] : null}
       />
     );
