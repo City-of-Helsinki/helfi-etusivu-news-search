@@ -3,22 +3,13 @@ import { ReactiveList } from '@appbaseio/reactivesearch';
 import SearchComponents from '../enum/SearchComponents';
 import Result from '../types/Result';
 import ResultCard from './ResultCard';
+import ResultsHeading from './ResultsHeading';
 
 const ResultsContainer = () => {
-  const getHeaderText = () => {
-    // @todo implement filter check
-    const filterApplied = false;
-    const text = filterApplied
-      ? Drupal.t('News based on your choices')
-      : Drupal.t('All news items', {}, { context: 'News archive heading' });
-
-    return text;
-  };
-
   return (
     <div>
       <div>
-        <h2 className="news-archive__heading">{getHeaderText()}</h2>
+        <ResultsHeading />
       </div>
       <ReactiveList
         className="news-container"
