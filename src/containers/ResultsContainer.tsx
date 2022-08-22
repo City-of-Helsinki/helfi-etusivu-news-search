@@ -6,6 +6,7 @@ import ResultsHeading from '../components/results/ResultsHeading';
 import SearchComponents from '../enum/SearchComponents';
 import useLanguageQuery from '../hooks/useLanguageQuery';
 import useOnScreen from '../hooks/useOnScreen';
+import Pagination from '../search/Pagination';
 import Result from '../types/Result';
 
 type ResultsData = {
@@ -50,11 +51,13 @@ const ResultsContainer = () => {
             {Drupal.t('No results found', {}, { context: 'News archive no results' })}
           </div>
         )}
+        renderPagination={(props) => <Pagination {...props} />}
         react={{
           and: [SearchComponents.SUBMIT],
         }}
         showResultStats={false}
-        size={10}
+        size={1}
+        URLParams={true}
       />
     </div>
   );
