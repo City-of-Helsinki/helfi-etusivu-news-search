@@ -19,10 +19,10 @@ test('Renders correctly', () => {
 
   // Handles time formatting correctly
   const htmlTime = document.querySelector('time').dateTime;
-  expect(htmlTime).toEqual('2022-05-06T15:12');
+  expect(htmlTime).toEqual('2022-05-06T12:12');
 
   const visibleTime = document.querySelector('.visually-hidden').textContent;
-  expect(visibleTime).toEqual('6.5.2022 15:12');
+  expect(visibleTime).toEqual('6.5.2022 12:12');
 
   // Sets href value correctly
   const href = document.querySelector('a').href;
