@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { format } from 'date-fns-tz';
 
 import Result from '../types/Result';
 
@@ -16,9 +16,12 @@ const ResultCard = ({
       return null;
     }
 
+    const timeZone = 'Europe/Helsinki';
     const published = new Date(published_at[0] * 1000);
-    const htmlTime = `${format(published, 'Y-MM-dd')}T${format(published, 'HH:mm')}`;
-    const visibleTime = format(published, 'd.M.Y H:mm');
+    const htmlTime = `${format(published, 'Y-MM-dd', { timeZone: timeZone })}T${format(published, 'HH:mm', {
+      timeZone: timeZone,
+    })}`;
+    const visibleTime = format(published, 'd.M.Y H:mm', { timeZone: timeZone });
 
     return (
       <time dateTime={htmlTime} className="news-listing__datetime news-listing__datetime--published">
