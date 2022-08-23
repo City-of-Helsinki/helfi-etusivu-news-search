@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
-import Result from '../types/Result';
+import Result from '../../types/Result';
 import ResultCard from './ResultCard';
 
 const mockResult: Result = {

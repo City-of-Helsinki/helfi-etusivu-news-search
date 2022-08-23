@@ -1,6 +1,6 @@
 import { StateProvider } from '@appbaseio/reactivesearch';
 
-import SearchComponents from '../enum/SearchComponents';
+import SearchComponents from '../../enum/SearchComponents';
 
 //@todo implement filter check (after filters are implemented)
 const filtersApplied = () => {

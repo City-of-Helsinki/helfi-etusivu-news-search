@@ -2,6 +2,7 @@ import { ReactiveBase } from '@appbaseio/reactivesearch';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import SearchContainer from './containers/SearchContainer';
 import Settings from './enum/Settings';
 import SearchContainer from './search/SearchContainer';
 

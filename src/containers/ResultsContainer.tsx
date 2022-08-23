@@ -1,9 +1,9 @@
 import { ReactiveList } from '@appbaseio/reactivesearch';
 
+import ResultCard from '../components/results/ResultCard';
+import ResultsHeading from '../components/results/ResultsHeading';
 import SearchComponents from '../enum/SearchComponents';
 import Result from '../types/Result';
-import ResultCard from './ResultCard';
-import ResultsHeading from './ResultsHeading';
 
 const ResultsContainer = () => {
   return (
