@@ -1,6 +1,9 @@
 export const SearchComponents = {
+  NEIGHBOURHOODS: 'neighbourhoods',
+  NEWS_GROUPS: 'groups',
   RESULTS: 'results',
-  SEARCH_BAR: 's',
+  SUBMIT: 'submit',
+  TOPIC: 'topic',
 };
 
 export default SearchComponents;

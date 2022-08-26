@@ -24,6 +24,9 @@ const ResultsContainer = () => {
             ))}
           </ul>
         )}
+        react={{
+          and: [SearchComponents.SUBMIT],
+        }}
         showResultStats={false}
         size={10}
       />
