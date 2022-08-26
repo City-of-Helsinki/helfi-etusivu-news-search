@@ -25,7 +25,7 @@ export const SubmitButton = ({ searchState, setQuery }: Props) => {
       onClick={() => {
         let query: any = {
           bool: {
-            should: [],
+            must: [],
             filter: languageFilter.bool.filter,
           },
         };
@@ -35,7 +35,7 @@ export const SubmitButton = ({ searchState, setQuery }: Props) => {
 
           if (state && state.value) {
             state.value.forEach((value: string) =>
-              query.bool.should.push({
+              query.bool.must.push({
                 term: {
                   [ComponentMap[key]]: value,
                 },

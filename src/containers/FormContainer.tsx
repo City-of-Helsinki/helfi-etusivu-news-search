@@ -1,7 +1,7 @@
 import { ReactiveComponent } from '@appbaseio/reactivesearch';
 import { StateProvider } from '@appbaseio/reactivesearch';
 import { Button, IconCross } from 'hds-react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 import Dropdown from '../components/form//Dropdown';
 import SubmitButton from '../components/form/SubmitButton';
@@ -10,10 +10,17 @@ import SearchComponents from '../enum/SearchComponents';
 import useLanguageQuery from '../hooks/useLanguageQuery';
 
 export const FormContainer = () => {
+  const [topics, setTopics] = useState([]);
+  const [neighbourhoods, setNeighbourhoods] = useState([]);
+  const [groups, setGroups] = useState([]);
   const languageFilter = useLanguageQuery();
   const submitButton = useRef<any>(null);
 
   const clearSelections = () => {
+    setTopics([]);
+    setNeighbourhoods([]);
+    setGroups([]);
+
     if (submitButton && submitButton.current) {
       submitButton.current.setQuery({ query: null });
     }
@@ -42,6 +49,8 @@ export const FormContainer = () => {
               label={Drupal.t('Topics')}
               placeholder={Drupal.t('All topics')}
               setQuery={setQuery}
+              setValue={setTopics}
+              value={topics}
             />
           )}
           URLParams={true}
@@ -66,6 +75,8 @@ export const FormContainer = () => {
               label={Drupal.t('Neighbourhoods')}
               placeholder={Drupal.t('All neighbourhoods')}
               setQuery={setQuery}
+              setValue={setNeighbourhoods}
+              value={neighbourhoods}
             />
           )}
           URLParams={true}
@@ -90,6 +101,8 @@ export const FormContainer = () => {
               label={Drupal.t('Groups')}
               placeholder={Drupal.t('Groups')}
               setQuery={setQuery}
+              setValue={setGroups}
+              value={groups}
             />
           )}
           URLParams={true}
