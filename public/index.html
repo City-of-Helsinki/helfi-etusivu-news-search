@@ -24,11 +24,21 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <!-- Development stylesheets -->
+    <link rel="stylesheet" href="https://helfi-etusivu.docker.so/etusivu-assets/themes/contrib/hdbt/dist/css/styles.min.css" />
     <title>React App</title>
+    <script>
+      // Mock Drupal.t in development to prevent errors.
+      window.Drupal = {
+        t: function(str, args, options) {
+          return str;
+        }
+      }
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div class="development-container">
+    <div class="development-container main-content">
       <div id="helfi-etusivu-news-search"></div>
     </div>
 
