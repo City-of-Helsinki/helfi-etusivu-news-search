@@ -2,6 +2,7 @@ import { Button } from 'hds-react';
 
 import IndexFields from '../../enum/IndexFields';
 import SearchComponents from '../../enum/SearchComponents';
+import { useLanguageQuery } from '../../hooks/useLanguageQuery';
 
 type Props = {
   searchState: any;
@@ -15,6 +16,8 @@ export const ComponentMap = {
 };
 
 export const SubmitButton = ({ searchState, setQuery }: Props) => {
+  const languageFilter = useLanguageQuery();
+
   return (
     <Button
       type="submit"
@@ -23,6 +26,7 @@ export const SubmitButton = ({ searchState, setQuery }: Props) => {
         let query: any = {
           bool: {
             should: [],
+            filter: languageFilter.bool.filter,
           },
         };
 

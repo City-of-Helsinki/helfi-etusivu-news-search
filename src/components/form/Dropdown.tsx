@@ -30,17 +30,19 @@ export const Dropdown = ({
   const options: OptionType[] = useAggregations(aggregations, indexKey);
 
   return (
-    <Combobox
-      clearButtonAriaLabel={clearButtonAriaLabel}
-      label={label}
-      options={options}
-      onChange={(value: any) => {
-        setQuery({ value: value.map((option: any) => option.value) });
-      }}
-      multiselect={true}
-      selectedItemRemoveButtonAriaLabel={selectedItemRemoveButtonAriaLabel}
-      toggleButtonAriaLabel={toggleButtonAriaLabel}
-    />
+    <div className="news-form__filter">
+      <Combobox
+        clearButtonAriaLabel={clearButtonAriaLabel}
+        label={label}
+        options={options}
+        onChange={(value: any) => {
+          setQuery({ value: value.map((option: any) => option.value) });
+        }}
+        multiselect={true}
+        selectedItemRemoveButtonAriaLabel={selectedItemRemoveButtonAriaLabel}
+        toggleButtonAriaLabel={toggleButtonAriaLabel}
+      />
+    </div>
   );
 };
 

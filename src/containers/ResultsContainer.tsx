@@ -3,9 +3,12 @@ import { ReactiveList } from '@appbaseio/reactivesearch';
 import ResultCard from '../components/results/ResultCard';
 import ResultsHeading from '../components/results/ResultsHeading';
 import SearchComponents from '../enum/SearchComponents';
+import useLanguageQuery from '../hooks/useLanguageQuery';
 import Result from '../types/Result';
 
 const ResultsContainer = () => {
+  const languageFilter = useLanguageQuery();
+
   return (
     <div>
       <div>
@@ -17,6 +20,11 @@ const ResultsContainer = () => {
         dataField={'id'}
         pages={3}
         pagination={true}
+        defaultQuery={() => ({
+          query: {
+            ...languageFilter,
+          },
+        })}
         render={({ data }: any) => (
           <ul className="news-listing news-listing--teasers">
             {data.map((item: Result) => (

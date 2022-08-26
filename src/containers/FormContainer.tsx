@@ -7,8 +7,10 @@ import Dropdown from '../components/form//Dropdown';
 import SubmitButton from '../components/form/SubmitButton';
 import IndexFields from '../enum/IndexFields';
 import SearchComponents from '../enum/SearchComponents';
+import useLanguageQuery from '../hooks/useLanguageQuery';
 
 export const FormContainer = () => {
+  const languageFilter = useLanguageQuery();
   const submitButton = useRef<any>(null);
 
   const clearSelections = () => {
@@ -31,6 +33,7 @@ export const FormContainer = () => {
                 },
               },
             },
+            query: languageFilter,
           })}
           render={({ aggregations, setQuery }) => (
             <Dropdown
@@ -54,6 +57,7 @@ export const FormContainer = () => {
                 },
               },
             },
+            query: languageFilter,
           })}
           render={({ aggregations, setQuery }) => (
             <Dropdown
@@ -77,6 +81,7 @@ export const FormContainer = () => {
                 },
               },
             },
+            query: languageFilter,
           })}
           render={({ aggregations, setQuery }) => (
             <Dropdown
