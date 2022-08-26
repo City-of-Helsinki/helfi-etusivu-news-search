@@ -31,10 +31,16 @@
     <link rel="stylesheet" href="https://helfi-etusivu.docker.so/etusivu-assets/themes/contrib/hdbt/dist/css/styles.min.css" />
     <title>React App</title>
     <script>
-      // Mock Drupal.t in development to prevent errors.
+      // Mock Drupal.t & drupalSettings in development to prevent errors.
       window.Drupal = {
         t: function(str, args, options) {
           return str;
+        }
+      }
+
+      window.drupalSettings = {
+        path: {
+          currentLanguage: 'fi'
         }
       }
     </script>
