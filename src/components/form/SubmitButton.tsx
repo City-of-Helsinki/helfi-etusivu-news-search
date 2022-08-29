@@ -41,7 +41,10 @@ export const SubmitButton = ({ searchState, setQuery }: Props) => {
       }
     });
 
-    return query;
+    return {
+      query: query,
+      value: query.bool.must.length,
+    };
   }, [languageFilter, searchState]);
 
   useEffect(() => {
@@ -49,7 +52,7 @@ export const SubmitButton = ({ searchState, setQuery }: Props) => {
       return;
     }
 
-    setQuery({ query: getQuery() });
+    setQuery(getQuery());
     setMounted(true);
   }, [getQuery, setQuery, mounted, setMounted]);
 
@@ -58,9 +61,7 @@ export const SubmitButton = ({ searchState, setQuery }: Props) => {
       type="submit"
       theme="black"
       onClick={() => {
-        setQuery({
-          query: getQuery(),
-        });
+        setQuery(getQuery());
       }}
     >
       {Drupal.t('Filter')}
