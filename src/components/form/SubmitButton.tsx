@@ -1,4 +1,5 @@
 import { Button } from 'hds-react';
+import { useCallback, useEffect, useState } from 'react';
 
 import IndexFields from '../../enum/IndexFields';
 import SearchComponents from '../../enum/SearchComponents';
@@ -16,36 +17,49 @@ export const ComponentMap = {
 };
 
 export const SubmitButton = ({ searchState, setQuery }: Props) => {
+  const [mounted, setMounted] = useState<boolean>(false);
   const languageFilter = useLanguageQuery();
+  const getQuery = useCallback(() => {
+    let query: any = {
+      bool: {
+        must: [],
+        filter: languageFilter.bool.filter,
+      },
+    };
+
+    Object.keys(ComponentMap).forEach((key: string) => {
+      const state = searchState[key] || null;
+
+      if (state && state.value) {
+        state.value.forEach((value: string) =>
+          query.bool.must.push({
+            term: {
+              [ComponentMap[key]]: value,
+            },
+          })
+        );
+      }
+    });
+
+    return query;
+  }, [languageFilter, searchState]);
+
+  useEffect(() => {
+    if (mounted) {
+      return;
+    }
+
+    setQuery({ query: getQuery() });
+    setMounted(true);
+  }, [getQuery, setQuery, mounted, setMounted]);
 
   return (
     <Button
       type="submit"
       theme="black"
       onClick={() => {
-        let query: any = {
-          bool: {
-            must: [],
-            filter: languageFilter.bool.filter,
-          },
-        };
-
-        Object.keys(ComponentMap).forEach((key: string) => {
-          const state = searchState[key] || null;
-
-          if (state && state.value) {
-            state.value.forEach((value: string) =>
-              query.bool.must.push({
-                term: {
-                  [ComponentMap[key]]: value,
-                },
-              })
-            );
-          }
-        });
-
         setQuery({
-          query: query,
+          query: getQuery(),
         });
       }}
     >

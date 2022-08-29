@@ -8,11 +8,20 @@ import SubmitButton from '../components/form/SubmitButton';
 import IndexFields from '../enum/IndexFields';
 import SearchComponents from '../enum/SearchComponents';
 import useLanguageQuery from '../hooks/useLanguageQuery';
+import type OptionType from '../types/OptionType';
 
-export const FormContainer = () => {
-  const [topics, setTopics] = useState([]);
-  const [neighbourhoods, setNeighbourhoods] = useState([]);
-  const [groups, setGroups] = useState([]);
+type FormContainerParams = {
+  initialState: {
+    topics: OptionType[];
+    neighbourhoods: OptionType[];
+    groups: OptionType[];
+  };
+};
+
+export const FormContainer = ({ initialState }: FormContainerParams) => {
+  const [topics, setTopics] = useState(initialState.topics);
+  const [neighbourhoods, setNeighbourhoods] = useState(initialState.neighbourhoods);
+  const [groups, setGroups] = useState(initialState.groups);
   const languageFilter = useLanguageQuery();
   const submitButton = useRef<any>(null);
 
