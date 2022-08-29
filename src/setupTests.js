@@ -5,6 +5,12 @@ global.Drupal = {
   t: (str, args, options) => str,
 };
 
+global.drupalSettings = {
+  path: {
+    currentLanguage: 'fi',
+  },
+};
+
 beforeAll(() => {
   server.listen();
 });
