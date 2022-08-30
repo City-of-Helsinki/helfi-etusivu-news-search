@@ -1,9 +1,11 @@
 import { ReactiveList } from '@appbaseio/reactivesearch';
+import { useRef } from 'react';
 
 import ResultCard from '../components/results/ResultCard';
 import ResultsHeading from '../components/results/ResultsHeading';
 import SearchComponents from '../enum/SearchComponents';
 import useLanguageQuery from '../hooks/useLanguageQuery';
+import useOnScreen from '../hooks/useOnScreen';
 import Result from '../types/Result';
 
 type ResultsData = {
@@ -11,15 +13,24 @@ type ResultsData = {
 };
 
 const ResultsContainer = () => {
+  const resultsWrapper = useRef<HTMLDivElement | null>(null);
+  const wrapperIntersecting = useOnScreen(resultsWrapper);
   const languageFilter = useLanguageQuery();
 
+  const onPageChange = () => {
+    if (resultsWrapper && resultsWrapper.current && !wrapperIntersecting) {
+      resultsWrapper.current.scrollIntoView();
+    }
+  };
+
   return (
-    <div className="news-wrapper">
+    <div ref={resultsWrapper} className="news-wrapper">
       <ResultsHeading />
       <ReactiveList
         className="news-container"
         componentId={SearchComponents.RESULTS}
         dataField={'id'}
+        onPageChange={onPageChange}
         pages={3}
         pagination={true}
         defaultQuery={() => ({
