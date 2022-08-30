@@ -6,6 +6,10 @@ import SearchComponents from '../enum/SearchComponents';
 import useLanguageQuery from '../hooks/useLanguageQuery';
 import Result from '../types/Result';
 
+type ResultsData = {
+  data: Result[];
+};
+
 const ResultsContainer = () => {
   const languageFilter = useLanguageQuery();
 
@@ -25,7 +29,7 @@ const ResultsContainer = () => {
             ...languageFilter,
           },
         })}
-        render={({ data }: any) => (
+        render={({ data }: ResultsData) => (
           <ul className="news-listing news-listing--teasers">
             {data.map((item: Result) => (
               <ResultCard key={item._id} {...item} />

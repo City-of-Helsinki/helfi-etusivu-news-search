@@ -4,9 +4,16 @@ import { useCallback, useEffect, useState } from 'react';
 import IndexFields from '../../enum/IndexFields';
 import SearchComponents from '../../enum/SearchComponents';
 import { useLanguageQuery } from '../../hooks/useLanguageQuery';
+import type BooleanQuery from '../../types/BooleanQuery';
+
+type SearchStateItem = {
+  value: Array<string>;
+};
 
 type Props = {
-  searchState: any;
+  searchState: {
+    [key: string]: SearchStateItem;
+  };
   setQuery: Function;
 };
 
@@ -20,7 +27,7 @@ export const SubmitButton = ({ searchState, setQuery }: Props) => {
   const [mounted, setMounted] = useState<boolean>(false);
   const languageFilter = useLanguageQuery();
   const getQuery = useCallback(() => {
-    let query: any = {
+    let query: BooleanQuery = {
       bool: {
         must: [],
         filter: languageFilter.bool.filter,

@@ -3,13 +3,14 @@ import type { ComboboxProps } from 'hds-react';
 import { useEffect } from 'react';
 
 import useAggregations from '../../hooks/useAggregations';
+import type { Aggregations } from '../../types/Aggregations';
 import OptionType from '../../types/OptionType';
 
 type DropdownProps = Omit<
   ComboboxProps<OptionType>,
   'options' | 'clearButtonAriaLabel' | 'selectedItemRemoveButtonAriaLabel' | 'toggleButtonAriaLabel'
 > & {
-  aggregations: any;
+  aggregations: Aggregations;
   label: string;
   indexKey: string;
   setQuery: Function;
@@ -38,7 +39,7 @@ export const Dropdown = ({
     if (!value || !value.length) {
       setQuery({ value: null });
     } else {
-      setQuery({ value: value.map((option: any) => option.value) });
+      setQuery({ value: value.map((option: OptionType) => option.value) });
     }
   }, [value, setQuery]);
 
@@ -48,7 +49,7 @@ export const Dropdown = ({
         clearButtonAriaLabel={clearButtonAriaLabel}
         label={label}
         options={options}
-        onChange={(value: any) => {
+        onChange={(value: OptionType[]) => {
           setValue(value);
         }}
         multiselect={true}

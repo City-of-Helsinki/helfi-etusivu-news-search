@@ -129,6 +129,7 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
         />
         <div className="news-form__clear-all">
           <Button
+            aria-label={Drupal.t('Clear all selections')}
             className="news-form__clear-all-button"
             iconLeft={<IconCross />}
             onClick={clearSelections}
