@@ -25,13 +25,13 @@ export const Dropdown = ({
   aggregations,
   indexKey,
   label,
+  placeholder,
   setQuery,
   setValue,
   value,
   clearButtonAriaLabel = Drupal.t('Clear selection', {}, { context: 'News archive clear button aria label' }),
   selectedItemRemoveButtonAriaLabel = Drupal.t('Remove item', {}, { context: 'News archive remove item aria label' }),
   toggleButtonAriaLabel = Drupal.t('Open the combobox', {}, { context: 'News archive open dropdown aria label' }),
-  ...rest
 }: DropdownProps) => {
   const options: OptionType[] = useAggregations(aggregations, indexKey);
 
@@ -52,6 +52,7 @@ export const Dropdown = ({
         onChange={(value: OptionType[]) => {
           setValue(value);
         }}
+        placeholder={placeholder}
         multiselect={true}
         selectedItemRemoveButtonAriaLabel={selectedItemRemoveButtonAriaLabel}
         toggleButtonAriaLabel={toggleButtonAriaLabel}
