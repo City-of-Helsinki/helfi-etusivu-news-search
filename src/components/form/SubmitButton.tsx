@@ -65,6 +65,7 @@ export const SubmitButton = ({ searchState, setQuery }: Props) => {
 
   return (
     <Button
+      className="news-form__submit-button"
       type="submit"
       theme="black"
       onClick={() => {

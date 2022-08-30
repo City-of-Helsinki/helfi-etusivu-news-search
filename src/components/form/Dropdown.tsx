@@ -28,9 +28,9 @@ export const Dropdown = ({
   setQuery,
   setValue,
   value,
-  clearButtonAriaLabel = Drupal.t('Clear selection'),
-  selectedItemRemoveButtonAriaLabel = Drupal.t('Remove item'),
-  toggleButtonAriaLabel = Drupal.t('Open the combobox'),
+  clearButtonAriaLabel = Drupal.t('Clear selection', {}, { context: 'News archive clear button aria label' }),
+  selectedItemRemoveButtonAriaLabel = Drupal.t('Remove item', {}, { context: 'News archive remove item aria label' }),
+  toggleButtonAriaLabel = Drupal.t('Open the combobox', {}, { context: 'News archive open dropdown aria label' }),
   ...rest
 }: DropdownProps) => {
   const options: OptionType[] = useAggregations(aggregations, indexKey);
