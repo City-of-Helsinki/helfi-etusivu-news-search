@@ -34,6 +34,11 @@ const ResultsContainer = () => {
             ))}
           </ul>
         )}
+        renderNoResults={() => (
+          <div className="news-listing__no-results">
+            {Drupal.t('No results found', {}, { context: 'News archive no results' })}
+          </div>
+        )}
         react={{
           and: [SearchComponents.SUBMIT],
         }}
