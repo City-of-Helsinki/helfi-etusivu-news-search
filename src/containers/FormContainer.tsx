@@ -37,6 +37,7 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
 
   return (
     <div className="news-form-wrapper">
+      <h2>{Drupal.t('Filter news items', {}, { context: 'News archive filter results heading' })}</h2>
       <div className="news-form-container">
         <ReactiveComponent
           componentId={SearchComponents.TOPIC}
@@ -55,8 +56,8 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
             <Dropdown
               aggregations={aggregations}
               indexKey={`${IndexFields.FIELD_NEWS_ITEM_TAGS}`}
-              label={Drupal.t('Topics')}
-              placeholder={Drupal.t('All topics')}
+              label={Drupal.t('Topics', {}, { context: 'News archive topics label' })}
+              placeholder={Drupal.t('All topics', {}, { context: 'News archive topics placeholder' })}
               setQuery={setQuery}
               setValue={setTopics}
               value={topics}
@@ -81,8 +82,8 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
             <Dropdown
               aggregations={aggregations}
               indexKey={`${IndexFields.FIELD_NEWS_NEIGHBOURHOODS}`}
-              label={Drupal.t('Neighbourhoods')}
-              placeholder={Drupal.t('All neighbourhoods')}
+              label={Drupal.t('City disctricts', {}, { context: 'News archive neighbourhoods label' })}
+              placeholder={Drupal.t('All city disctricts', {}, { context: 'News archive neighbourhoods placeholder' })}
               setQuery={setQuery}
               setValue={setNeighbourhoods}
               value={neighbourhoods}
@@ -107,8 +108,8 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
             <Dropdown
               aggregations={aggregations}
               indexKey={`${IndexFields.FIELD_NEWS_GROUPS}`}
-              label={Drupal.t('Groups')}
-              placeholder={Drupal.t('Groups')}
+              label={Drupal.t('Target groups', {}, { context: 'News archive groups label' })}
+              placeholder={Drupal.t('All groups', {}, { context: 'News archive groups placeholder' })}
               setQuery={setQuery}
               setValue={setGroups}
               value={groups}
@@ -122,23 +123,41 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
           render={({ setQuery }) => {
             return (
               <StateProvider includeKeys={['value']}>
-                {({ searchState }) => <SubmitButton searchState={searchState} setQuery={setQuery} />}
+                {({ searchState }) => (
+                  <div className="news-form__submit">
+                    <SubmitButton searchState={searchState} setQuery={setQuery} />
+                  </div>
+                )}
               </StateProvider>
             );
           }}
         />
-        <div className="news-form__clear-all">
-          <Button
-            aria-label={Drupal.t('Clear all selections')}
-            className="news-form__clear-all-button"
-            iconLeft={<IconCross />}
-            onClick={clearSelections}
-            variant="supplementary"
-          >
-            {Drupal.t('Clear selections')}
-          </Button>
-        </div>
       </div>
+      <StateProvider>
+        {({ searchState }) => {
+          const { TOPIC, NEIGHBOURHOODS, NEWS_GROUPS } = SearchComponents;
+          const filterApplied = [TOPIC, NEIGHBOURHOODS, NEWS_GROUPS].find(
+            (key: string) => searchState[key] && searchState[key].value
+          );
+
+          if (!filterApplied) {
+            return null;
+          }
+
+          return (
+            <div className="news-form__clear-all">
+              <Button
+                className="news-form__clear-all-button"
+                iconLeft={<IconCross />}
+                onClick={clearSelections}
+                variant="supplementary"
+              >
+                {Drupal.t('Clear selections', {}, { context: 'News archive clear selections' })}
+              </Button>
+            </div>
+          );
+        }}
+      </StateProvider>
     </div>
   );
 };

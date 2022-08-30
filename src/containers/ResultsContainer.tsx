@@ -14,10 +14,8 @@ const ResultsContainer = () => {
   const languageFilter = useLanguageQuery();
 
   return (
-    <div>
-      <div>
-        <ResultsHeading />
-      </div>
+    <div className="news-wrapper">
+      <ResultsHeading />
       <ReactiveList
         className="news-container"
         componentId={SearchComponents.RESULTS}
