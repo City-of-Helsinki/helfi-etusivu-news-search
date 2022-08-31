@@ -22,7 +22,10 @@ const ResultCard = ({
 
     return (
       <time dateTime={htmlTime} className="news-listing__datetime news-listing__datetime--published">
-        <span className="visually-hidden">{visibleTime}</span>
+        <span className="visually-hidden">
+          {Drupal.t('Published', {}, { context: 'The helper text before the node published timestamp' })}
+        </span>
+        {visibleTime}
       </time>
     );
   };
