@@ -1,3 +1,5 @@
+import 'intersection-observer';
+
 import { server } from './test/test-utils';
 
 // Mock Drupal.t for tests.
