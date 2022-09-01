@@ -5,7 +5,6 @@ import ResultCard from '../components/results/ResultCard';
 import ResultsHeading from '../components/results/ResultsHeading';
 import SearchComponents from '../enum/SearchComponents';
 import useLanguageQuery from '../hooks/useLanguageQuery';
-import useOnScreen from '../hooks/useOnScreen';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 import Pagination from '../search/Pagination';
 import Result from '../types/Result';
@@ -18,10 +17,13 @@ const ResultsContainer = () => {
   const dimensions = useWindowDimensions();
   const languageFilter = useLanguageQuery();
   const resultsWrapper = useRef<HTMLDivElement | null>(null);
-  const wrapperIntersecting = useOnScreen(resultsWrapper);
 
   const onPageChange = () => {
-    if (resultsWrapper && resultsWrapper.current && !wrapperIntersecting) {
+    if (!resultsWrapper.current) {
+      return;
+    }
+
+    if (Math.abs(resultsWrapper.current.getBoundingClientRect().y) < window.pageYOffset) {
       resultsWrapper.current.scrollIntoView();
     }
   };
