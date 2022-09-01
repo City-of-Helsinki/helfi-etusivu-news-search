@@ -1,12 +1,12 @@
 import { ReactiveList } from '@appbaseio/reactivesearch';
 import { useRef } from 'react';
 
+import Pagination from '../components/results/Pagination';
 import ResultCard from '../components/results/ResultCard';
 import ResultsHeading from '../components/results/ResultsHeading';
 import SearchComponents from '../enum/SearchComponents';
 import useLanguageQuery from '../hooks/useLanguageQuery';
 import useWindowDimensions from '../hooks/useWindowDimensions';
-import Pagination from '../search/Pagination';
 import Result from '../types/Result';
 
 type ResultsData = {

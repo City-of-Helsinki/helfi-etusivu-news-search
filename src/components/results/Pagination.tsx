@@ -1,7 +1,7 @@
 import { IconAngleLeft, IconAngleRight } from 'hds-react';
 import React, { Fragment } from 'react';
 
-import SearchComponents from '../enum/SearchComponents';
+import SearchComponents from '../../enum/SearchComponents';
 
 type PaginationProps = {
   pages: number;
@@ -116,8 +116,8 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
               )}
             </Fragment>
           )}
-          {prevPages.map((pageIndex) => (
-            <li className="pager__item">
+          {prevPages.map((pageIndex, i) => (
+            <li className="pager__item" key={i}>
               <a
                 href={`?${SearchComponents.RESULTS}=${pageIndex + 1}`}
                 className="hds-pagination__item-link"
@@ -136,8 +136,8 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
               {currentPage + 1}
             </a>
           </li>
-          {nextPages.map((pageIndex) => (
-            <li className="pager__item">
+          {nextPages.map((pageIndex, i) => (
+            <li className="pager__item" key={i}>
               <a
                 href={`?${SearchComponents.RESULTS}=${pageIndex + 1}`}
                 className="hds-pagination__item-link"
