@@ -6,6 +6,7 @@ import ResultsHeading from '../components/results/ResultsHeading';
 import SearchComponents from '../enum/SearchComponents';
 import useLanguageQuery from '../hooks/useLanguageQuery';
 import useOnScreen from '../hooks/useOnScreen';
+import useWindowDimensions from '../hooks/useWindowDimensions';
 import Pagination from '../search/Pagination';
 import Result from '../types/Result';
 
@@ -14,15 +15,18 @@ type ResultsData = {
 };
 
 const ResultsContainer = () => {
+  const dimensions = useWindowDimensions();
+  const languageFilter = useLanguageQuery();
   const resultsWrapper = useRef<HTMLDivElement | null>(null);
   const wrapperIntersecting = useOnScreen(resultsWrapper);
-  const languageFilter = useLanguageQuery();
 
   const onPageChange = () => {
     if (resultsWrapper && resultsWrapper.current && !wrapperIntersecting) {
       resultsWrapper.current.scrollIntoView();
     }
   };
+
+  const pages = dimensions.isMobile ? 3 : 5;
 
   return (
     <div ref={resultsWrapper} className="news-wrapper">
@@ -32,7 +36,7 @@ const ResultsContainer = () => {
         componentId={SearchComponents.RESULTS}
         dataField={'id'}
         onPageChange={onPageChange}
-        pages={3}
+        pages={pages}
         pagination={true}
         defaultQuery={() => ({
           query: {
@@ -56,7 +60,7 @@ const ResultsContainer = () => {
           and: [SearchComponents.SUBMIT],
         }}
         showResultStats={false}
-        size={1}
+        size={10}
         URLParams={true}
       />
     </div>
