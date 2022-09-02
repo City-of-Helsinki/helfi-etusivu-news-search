@@ -1,7 +1,7 @@
 export const SearchComponents = {
   NEIGHBOURHOODS: 'neighbourhoods',
   NEWS_GROUPS: 'groups',
-  RESULTS: 'results',
+  RESULTS: 'page',
   SUBMIT: 'submit',
   TOPIC: 'topic',
 };
