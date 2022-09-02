@@ -18,11 +18,9 @@ test('Renders correctly', () => {
   expect(screen.getByRole('heading')).toHaveTextContent(mockResult.title[0]);
 
   // Handles time formatting correctly
-  const htmlTime = document.querySelector('time').dateTime;
-  expect(htmlTime).toEqual('2022-05-06T12:12');
-
-  const visibleTime = document.querySelector('.visually-hidden').textContent;
-  expect(visibleTime).toEqual('6.5.2022 12:12');
+  const time = document.querySelector('time');
+  expect(time.dateTime).toEqual('2022-05-06T12:12');
+  expect(time.childNodes[1].textContent).toEqual('6.5.2022 12:12');
 
   // Sets href value correctly
   const href = document.querySelector('a').href;
