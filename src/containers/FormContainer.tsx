@@ -114,7 +114,7 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
                 aggregations={aggregations}
                 indexKey={`${IndexFields.FIELD_NEWS_GROUPS}`}
                 label={Drupal.t('Target groups', {}, { context: 'News archive groups label' })}
-                placeholder={Drupal.t('All groups', {}, { context: 'News archive groups placeholder' })}
+                placeholder={Drupal.t('All target groups', {}, { context: 'News archive groups placeholder' })}
                 setQuery={setQuery}
                 setValue={setGroups}
                 value={groups}
