@@ -1,26 +1,22 @@
 import { StateProvider } from '@appbaseio/reactivesearch';
 
-import SearchComponents from '../enum/SearchComponents';
-
-//@todo implement filter check (after filters are implemented)
-const filtersApplied = () => {
-  return false;
-};
+import SearchComponents from '../../enum/SearchComponents';
 
 export const ResultsHeading = () => {
-  const { RESULTS } = SearchComponents;
+  const { RESULTS, SUBMIT } = SearchComponents;
 
   return (
     <StateProvider
+      includeKeys={['value', 'hits']}
       render={({ searchState }) => (
-        <h2 className="news-archive__heading">
-          {filtersApplied()
+        <h3 className="news-archive__heading">
+          {searchState[SUBMIT] && searchState[SUBMIT].value && searchState[RESULTS] && searchState[RESULTS].hits
             ? Drupal.t(
-                Drupal.t('News based on your choices', {}, { context: 'News archive heading with choices' }) +
+                Drupal.t('News based on your choices', {}, { context: 'News archive heading' }) +
                   ` (${searchState[RESULTS].hits ? searchState[RESULTS].hits.total : 0})`
               )
             : Drupal.t('All news items', {}, { context: 'News archive heading' })}
-        </h2>
+        </h3>
       )}
     />
   );
