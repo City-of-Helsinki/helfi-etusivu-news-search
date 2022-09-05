@@ -6,9 +6,10 @@ export type TermQuery = {
 
 export type BooleanQuery = {
   bool: {
-    must: TermQuery[];
-    should?: TermQuery[];
+    must?: TermQuery[];
+    should: TermQuery[];
     filter?: TermQuery[];
+    minimum_should_match?: number;
   };
 };
 

@@ -29,7 +29,7 @@ export const SubmitButton = ({ searchState, setQuery }: Props) => {
   const getQuery = useCallback(() => {
     let query: BooleanQuery = {
       bool: {
-        must: [],
+        should: [],
         filter: languageFilter.bool.filter,
       },
     };
@@ -39,7 +39,7 @@ export const SubmitButton = ({ searchState, setQuery }: Props) => {
 
       if (state && state.value) {
         state.value.forEach((value: string) =>
-          query.bool.must.push({
+          query.bool.should.push({
             term: {
               [ComponentMap[key]]: value,
             },
@@ -48,9 +48,11 @@ export const SubmitButton = ({ searchState, setQuery }: Props) => {
       }
     });
 
+    query.bool.minimum_should_match = Number(query.bool.should.length > 0);
+
     return {
       query: query,
-      value: query.bool.must.length,
+      value: query.bool.should.length,
     };
   }, [languageFilter, searchState]);
 
