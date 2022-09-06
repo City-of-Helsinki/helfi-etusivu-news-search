@@ -1,6 +1,7 @@
 import { ReactiveList } from '@appbaseio/reactivesearch';
 import { useRef } from 'react';
 
+import MostReadNews from '../components/results/MostReadNews';
 import Pagination from '../components/results/Pagination';
 import ResultCard from '../components/results/ResultCard';
 import ResultsHeading from '../components/results/ResultsHeading';
@@ -31,40 +32,43 @@ const ResultsContainer = () => {
   const pages = dimensions.isMobile ? 3 : 5;
 
   return (
-    <div ref={resultsWrapper} className="news-wrapper">
-      <ResultsHeading />
-      <ReactiveList
-        className="news-container"
-        componentId={SearchComponents.RESULTS}
-        dataField={'id'}
-        onPageChange={onPageChange}
-        pages={pages}
-        pagination={true}
-        defaultQuery={() => ({
-          query: {
-            ...languageFilter,
-          },
-        })}
-        render={({ data }: ResultsData) => (
-          <ul className="news-listing news-listing--teasers">
-            {data.map((item: Result) => (
-              <ResultCard key={item._id} {...item} />
-            ))}
-          </ul>
-        )}
-        renderNoResults={() => (
-          <div className="news-listing__no-results">
-            {Drupal.t('No results found', {}, { context: 'News archive no results' })}
-          </div>
-        )}
-        renderPagination={(props) => <Pagination {...props} />}
-        react={{
-          and: [SearchComponents.SUBMIT],
-        }}
-        showResultStats={false}
-        size={10}
-        URLParams={true}
-      />
+    <div ref={resultsWrapper} className="news-wrapper main-content">
+      <div className="layout-content">
+        <ResultsHeading />
+        <ReactiveList
+          className="news-container"
+          componentId={SearchComponents.RESULTS}
+          dataField={'id'}
+          onPageChange={onPageChange}
+          pages={pages}
+          pagination={true}
+          defaultQuery={() => ({
+            query: {
+              ...languageFilter,
+            },
+          })}
+          render={({ data }: ResultsData) => (
+            <ul className="news-listing news-listing--teasers">
+              {data.map((item: Result) => (
+                <ResultCard key={item._id} {...item} />
+              ))}
+            </ul>
+          )}
+          renderNoResults={() => (
+            <div className="news-listing__no-results">
+              {Drupal.t('No results found', {}, { context: 'News archive no results' })}
+            </div>
+          )}
+          renderPagination={(props) => <Pagination {...props} />}
+          react={{
+            and: [SearchComponents.SUBMIT],
+          }}
+          showResultStats={false}
+          size={10}
+          URLParams={true}
+        />
+      </div>
+      <MostReadNews />
     </div>
   );
 };
