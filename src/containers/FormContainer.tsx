@@ -1,6 +1,5 @@
 import { ReactiveComponent } from '@appbaseio/reactivesearch';
 import { StateProvider } from '@appbaseio/reactivesearch';
-import { Button, IconCross } from 'hds-react';
 import { useRef, useState } from 'react';
 
 import Dropdown from '../components/form//Dropdown';
@@ -9,6 +8,7 @@ import IndexFields from '../enum/IndexFields';
 import SearchComponents from '../enum/SearchComponents';
 import useLanguageQuery from '../hooks/useLanguageQuery';
 import type OptionType from '../types/OptionType';
+import SelectionsContainer from './SelectionsContainer';
 
 type FormContainerParams = {
   initialState: {
@@ -32,6 +32,36 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
 
     if (submitButton && submitButton.current) {
       submitButton.current.setQuery({ query: null });
+    }
+  };
+
+  const clearSelection = (selection: OptionType, selectionType: string) => {
+    let state;
+    let stateHandler;
+    switch (selectionType) {
+      case 'topics':
+        state = [...topics];
+        stateHandler = setTopics;
+        break;
+      case 'neighbourhoods':
+        state = [...neighbourhoods];
+        stateHandler = setNeighbourhoods;
+        break;
+      case 'groups':
+        state = [...groups];
+        stateHandler = setGroups;
+        break;
+      default:
+        break;
+    }
+
+    const index = state?.findIndex((option) => {
+      return option.value === selection.value;
+    });
+
+    if (index !== undefined && state && stateHandler) {
+      state.splice(index, 1);
+      stateHandler(state);
     }
   };
 
@@ -138,31 +168,15 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
             }}
           />
         </div>
-        <StateProvider>
-          {({ searchState }) => {
-            const { TOPIC, NEIGHBOURHOODS, NEWS_GROUPS } = SearchComponents;
-            const filterApplied = [TOPIC, NEIGHBOURHOODS, NEWS_GROUPS].find(
-              (key: string) => searchState[key] && searchState[key].value
-            );
-
-            if (!filterApplied) {
-              return null;
-            }
-
-            return (
-              <div className="news-form__clear-all">
-                <Button
-                  className="news-form__clear-all-button"
-                  iconLeft={<IconCross />}
-                  onClick={clearSelections}
-                  variant="supplementary"
-                >
-                  {Drupal.t('Clear selections', {}, { context: 'News archive clear selections' })}
-                </Button>
-              </div>
-            );
+        <SelectionsContainer
+          clearSelection={clearSelection}
+          clearSelections={clearSelections}
+          filters={{
+            topics: topics,
+            neighbourhoods: neighbourhoods,
+            groups: groups,
           }}
-        </StateProvider>
+        />
       </div>
     </div>
   );

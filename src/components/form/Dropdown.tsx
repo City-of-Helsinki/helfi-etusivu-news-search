@@ -57,6 +57,10 @@ export const Dropdown = ({
         selectedItemRemoveButtonAriaLabel={selectedItemRemoveButtonAriaLabel}
         toggleButtonAriaLabel={toggleButtonAriaLabel}
         value={value}
+        theme={{
+          '--focus-outline-color': 'var(--hdbt-color-black)',
+          '--multiselect-checkbox-background-selected': 'var(--hdbt-color-black)',
+        }}
       />
     </div>
   );
