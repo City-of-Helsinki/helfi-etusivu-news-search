@@ -60,6 +60,7 @@ export const Dropdown = ({
         theme={{
           '--focus-outline-color': 'var(--hdbt-color-black)',
           '--multiselect-checkbox-background-selected': 'var(--hdbt-color-black)',
+          '--placeholder-color': 'var(--hdbt-color-black)',
         }}
       />
     </div>
