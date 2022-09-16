@@ -44,7 +44,7 @@ export const Dropdown = ({
   }, [value, setQuery]);
 
   return (
-    <div className="news-form__filter">
+    <div className='news-form__filter'>
       <Combobox
         clearButtonAriaLabel={clearButtonAriaLabel}
         label={label}

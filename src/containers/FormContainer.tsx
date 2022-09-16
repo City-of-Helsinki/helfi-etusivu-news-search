@@ -66,10 +66,10 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
   };
 
   return (
-    <div className="news-form-wrapper">
-      <div className="news-form-container">
+    <div className='news-form-wrapper'>
+      <div className='news-form-container'>
         <h2>{Drupal.t('Filter news items', {}, { context: 'News archive filter results heading' })}</h2>
-        <div className="news-form__filters-container">
+        <div className='news-form__filters-container'>
           <ReactiveComponent
             componentId={SearchComponents.TOPIC}
             defaultQuery={() => ({
@@ -159,7 +159,7 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
               return (
                 <StateProvider includeKeys={['value']}>
                   {({ searchState }) => (
-                    <div className="news-form__submit">
+                    <div className='news-form__submit'>
                       <SubmitButton searchState={searchState} setQuery={setQuery} />
                     </div>
                   )}

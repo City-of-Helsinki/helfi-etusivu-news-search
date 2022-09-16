@@ -54,16 +54,16 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
   }
 
   return (
-    <div className="hds-pagination-container">
+    <div className='hds-pagination-container'>
       <nav
-        className="hds-pagination pager"
-        role="navigation"
+        className='hds-pagination pager'
+        role='navigation'
         aria-label={Drupal.t('Pagination', {}, { context: 'Pagination aria-label' })}
         data-next={Drupal.t('Next', {}, { context: 'Pagination next page link text' })}
       >
         {prevPageExists ? (
           <a
-            className="hds-button hds-pagination__button-prev"
+            className='hds-button hds-pagination__button-prev'
             href={`?${SearchComponents.RESULTS}=${currentPage - 1}`}
             onClick={(e) => {
               if (prevPageExists) {
@@ -71,29 +71,29 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
               }
             }}
             title={Drupal.t('Go to previous page', {}, { context: 'Pagination previous page link title' })}
-            type="button"
-            rel="prev"
-            role="button"
+            type='button'
+            rel='prev'
+            role='button'
           >
             <IconAngleLeft />
-            <span aria-hidden="true" className="hds-pagination__button-prev-label">
+            <span aria-hidden='true' className='hds-pagination__button-prev-label'>
               {Drupal.t('Previous', {}, { context: 'Pagination previous page link text' })}
             </span>
           </a>
         ) : (
           <button
-            className="hds-button hds-pagination__button-prev"
+            className='hds-button hds-pagination__button-prev'
             disabled
             title={Drupal.t('Go to previous page', {}, { context: 'Pagination previous page link title' })}
-            type="button"
+            type='button'
           >
             <IconAngleLeft />
-            <span aria-hidden="true" className="hds-pagination__button-prev-label">
+            <span aria-hidden='true' className='hds-pagination__button-prev-label'>
               {Drupal.t('Previous', {}, { context: 'Pagination previous page link text' })}
             </span>
           </button>
         )}
-        <ul className="pager__items js-pager__items hds-pagination__pages">
+        <ul className='pager__items js-pager__items hds-pagination__pages'>
           {!firstWithinRange && (
             <Fragment>
               <li>
@@ -104,23 +104,23 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
                       setPageWithPrevent(e, 0);
                     }
                   }}
-                  className="hds-pagination__item-link"
+                  className='hds-pagination__item-link'
                 >
                   1
                 </a>
               </li>
               {prevPages[0] - 1 > 0 && (
-                <li className="pager__item pager__item--ellipsis" role="presentation">
-                  <span className="hds-pagination__item-ellipsis">&hellip;</span>
+                <li className='pager__item pager__item--ellipsis' role='presentation'>
+                  <span className='hds-pagination__item-ellipsis'>&hellip;</span>
                 </li>
               )}
             </Fragment>
           )}
           {prevPages.map((pageIndex, i) => (
-            <li className="pager__item" key={i}>
+            <li className='pager__item' key={i}>
               <a
                 href={`?${SearchComponents.RESULTS}=${pageIndex + 1}`}
-                className="hds-pagination__item-link"
+                className='hds-pagination__item-link'
                 onClick={(e) => setPageWithPrevent(e, pageIndex)}
                 key={pageIndex}
               >
@@ -128,19 +128,19 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
               </a>
             </li>
           ))}
-          <li className="pager__item is-active">
+          <li className='pager__item is-active'>
             <a
               href={`?${SearchComponents.RESULTS}=${currentPage + 1}`}
-              className="hds-pagination__item-link hds-pagination__item-link--active"
+              className='hds-pagination__item-link hds-pagination__item-link--active'
             >
               {currentPage + 1}
             </a>
           </li>
           {nextPages.map((pageIndex, i) => (
-            <li className="pager__item" key={i}>
+            <li className='pager__item' key={i}>
               <a
                 href={`?${SearchComponents.RESULTS}=${pageIndex + 1}`}
-                className="hds-pagination__item-link"
+                className='hds-pagination__item-link'
                 onClick={(e) => setPageWithPrevent(e, pageIndex)}
                 key={pageIndex}
               >
@@ -152,14 +152,14 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
             <Fragment>
               {nextPages[nextPages.length - 1] + 1 !== totalPages && (
                 <li>
-                  <span className="hds-pagination__item-ellipsis">...</span>
+                  <span className='hds-pagination__item-ellipsis'>...</span>
                 </li>
               )}
               <li>
                 <a
                   href={`?${SearchComponents.RESULTS}=${totalPages - 1}`}
                   onClick={(e) => setPageWithPrevent(e, totalPages - 1)}
-                  className="hds-pagination__item-link"
+                  className='hds-pagination__item-link'
                 >
                   {totalPages}
                 </a>
@@ -169,7 +169,7 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
         </ul>
         {nextPageExists ? (
           <a
-            className="hds-button hds-pagination__button-next"
+            className='hds-button hds-pagination__button-next'
             href={`?${SearchComponents.RESULTS}=${currentPage - 1}`}
             onClick={(e) => {
               if (nextPageExists) {
@@ -177,23 +177,23 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
               }
             }}
             title={Drupal.t('Go to next page', {}, { context: 'Pagination next page link title' })}
-            type="button"
-            rel="next"
-            role="button"
+            type='button'
+            rel='next'
+            role='button'
           >
-            <span aria-hidden="true" className="hds-pagination__button-next-label">
+            <span aria-hidden='true' className='hds-pagination__button-next-label'>
               {Drupal.t('Next', {}, { context: 'Pagination next page link text' })}
             </span>
             <IconAngleRight />
           </a>
         ) : (
           <button
-            className="hds-button hds-pagination__button-next"
+            className='hds-button hds-pagination__button-next'
             disabled
             title={Drupal.t('Go to next page', {}, { context: 'Pagination next page link title' })}
-            type="button"
+            type='button'
           >
-            <span aria-hidden="true" className="hds-pagination__button-next-label">
+            <span aria-hidden='true' className='hds-pagination__button-next-label'>
               {Drupal.t('Next', {}, { context: 'Pagination next page link text' })}
             </span>
             <IconAngleRight />

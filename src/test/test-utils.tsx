@@ -10,7 +10,7 @@ import mockResponse from './mockResponse.json';
 export const renderWithStore = (ui: ReactElement, renderOptions = {}) => {
   const Wrapper: FC<{ children: ReactNode }> = ({ children }) => {
     return (
-      <ReactiveBase app="testing" url="https://helfi-etusivu.docker.so/fi">
+      <ReactiveBase app='testing' url='https://helfi-etusivu.docker.so/fi'>
         {children}
       </ReactiveBase>
     );

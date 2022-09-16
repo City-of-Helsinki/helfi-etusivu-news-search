@@ -5,7 +5,7 @@ const MostReadNews = () => {
     return null;
   }
 
-  return <div className="layout-sidebar-second" dangerouslySetInnerHTML={{ __html: mostReadBlocks.trim() }} />;
+  return <div className='layout-sidebar-second' dangerouslySetInnerHTML={{ __html: mostReadBlocks.trim() }} />;
 };
 
 export default MostReadNews;

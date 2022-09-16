@@ -21,8 +21,8 @@ const ResultCard = ({
     const visibleTime = format(published, 'd.M.Y H:mm');
 
     return (
-      <time dateTime={htmlTime} className="news-listing__datetime news-listing__datetime--published">
-        <span className="visually-hidden">
+      <time dateTime={htmlTime} className='news-listing__datetime news-listing__datetime--published'>
+        <span className='visually-hidden'>
           {Drupal.t('Published', {}, { context: 'The helper text before the node published timestamp' })}
         </span>
         {visibleTime}
@@ -56,16 +56,16 @@ const ResultCard = ({
   };
 
   return (
-    <li className="news-listing__item">
-      <div className="news-listing__content news-listing__content--with-image" role="article">
-        <h3 className="news-listing__title">
-          <a href={url[0]} className="news-listing__link">
+    <li className='news-listing__item'>
+      <div className='news-listing__content news-listing__content--with-image' role='article'>
+        <h3 className='news-listing__title'>
+          <a href={url[0]} className='news-listing__link'>
             {title}
           </a>
         </h3>
         {getPublished()}
       </div>
-      {field_main_image && field_main_image.length && <div className="news-listing__img">{getImage()}</div>}
+      {field_main_image && field_main_image.length && <div className='news-listing__img'>{getImage()}</div>}
     </li>
   );
 };
