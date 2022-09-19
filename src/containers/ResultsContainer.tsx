@@ -32,11 +32,11 @@ const ResultsContainer = () => {
   const pages = dimensions.isMobile ? 3 : 5;
 
   return (
-    <div ref={resultsWrapper} className="news-wrapper main-content">
-      <div className="layout-content">
+    <div ref={resultsWrapper} className='news-wrapper main-content'>
+      <div className='layout-content'>
         <ResultsHeading />
         <ReactiveList
-          className="news-container"
+          className='news-container'
           componentId={SearchComponents.RESULTS}
           dataField={'id'}
           onPageChange={onPageChange}
@@ -48,14 +48,14 @@ const ResultsContainer = () => {
             },
           })}
           render={({ data }: ResultsData) => (
-            <ul className="news-listing news-listing--teasers">
+            <ul className='news-listing news-listing--teasers'>
               {data.map((item: Result) => (
                 <ResultCard key={item._id} {...item} />
               ))}
             </ul>
           )}
           renderNoResults={() => (
-            <div className="news-listing__no-results">
+            <div className='news-listing__no-results'>
               {Drupal.t('No results found', {}, { context: 'News archive no results' })}
             </div>
           )}

@@ -67,12 +67,12 @@ export const SubmitButton = ({ searchState, setQuery }: Props) => {
 
   return (
     <Button
-      className="news-form__submit-button"
-      type="submit"
-      theme="black"
+      className='news-form__submit-button'
+      type='submit'
       onClick={() => {
         setQuery(getQuery());
       }}
+      variant='primary'
     >
       {Drupal.t('Filter')}
     </Button>

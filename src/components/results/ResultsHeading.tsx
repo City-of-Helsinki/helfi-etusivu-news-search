@@ -9,7 +9,7 @@ export const ResultsHeading = () => {
     <StateProvider
       includeKeys={['value', 'hits']}
       render={({ searchState }) => (
-        <h3 className="news-archive__heading">
+        <h3 className='news-archive__heading'>
           {searchState[SUBMIT] && searchState[SUBMIT].value && searchState[RESULTS] && searchState[RESULTS].hits
             ? Drupal.t(
                 Drupal.t('News based on your choices', {}, { context: 'News archive heading' }) +

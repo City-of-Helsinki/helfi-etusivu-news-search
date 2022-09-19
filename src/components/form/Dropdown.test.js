@@ -12,8 +12,8 @@ test('Renders correctly', () => {
   render(
     <Dropdown
       aggregations={mockAggregations}
-      label="Topic filter"
-      indexKey="indexKey"
+      label='Topic filter'
+      indexKey='indexKey'
       setQuery={() => null}
       setValue={() => null}
       value={['Interesting topic']}

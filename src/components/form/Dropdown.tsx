@@ -44,7 +44,7 @@ export const Dropdown = ({
   }, [value, setQuery]);
 
   return (
-    <div className="news-form__filter">
+    <div className='news-form__filter'>
       <Combobox
         clearButtonAriaLabel={clearButtonAriaLabel}
         label={label}
@@ -57,6 +57,11 @@ export const Dropdown = ({
         selectedItemRemoveButtonAriaLabel={selectedItemRemoveButtonAriaLabel}
         toggleButtonAriaLabel={toggleButtonAriaLabel}
         value={value}
+        theme={{
+          '--focus-outline-color': 'var(--hdbt-color-black)',
+          '--multiselect-checkbox-background-selected': 'var(--hdbt-color-black)',
+          '--placeholder-color': 'var(--hdbt-color-black)',
+        }}
       />
     </div>
   );
