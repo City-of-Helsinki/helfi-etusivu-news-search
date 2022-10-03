@@ -5,6 +5,7 @@ import IndexFields from '../../enum/IndexFields';
 import SearchComponents from '../../enum/SearchComponents';
 import { useLanguageQuery } from '../../hooks/useLanguageQuery';
 import type BooleanQuery from '../../types/BooleanQuery';
+import { TermQuery } from '../../types/BooleanQuery';
 
 type SearchStateItem = {
   value: Array<string>;
@@ -29,31 +30,40 @@ export const SubmitButton = ({ searchState, setQuery }: Props) => {
   const getQuery = useCallback(() => {
     let query: BooleanQuery = {
       bool: {
-        should: [],
+        must: [],
         filter: languageFilter.bool.filter,
       },
     };
 
     Object.keys(ComponentMap).forEach((key: string) => {
       const state = searchState[key] || null;
+      const should: TermQuery[] = [];
 
       if (state && state.value) {
         state.value.forEach((value: string) =>
-          query.bool.should.push({
+          should.push({
             term: {
               [ComponentMap[key]]: value,
             },
           })
         );
       }
+
+      if (should.length && query.bool?.must) {
+        query.bool.must.push({ bool: { should: should, minimum_should_match: 1 } });
+      }
     });
 
-    query.bool.minimum_should_match = Number(query.bool.should.length > 0);
-
-    return {
+    let result = {
       query: query,
-      value: query.bool.should.length,
+      value: 0,
     };
+
+    if (query.bool?.must?.length) {
+      result.value = query.bool.must.length;
+    }
+
+    return result;
   }, [languageFilter, searchState]);
 
   useEffect(() => {
