@@ -78,6 +78,7 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
                   terms: {
                     field: `${IndexFields.FIELD_NEWS_ITEM_TAGS}.keyword`,
                     order: { _key: 'asc' },
+                    size: 100000,
                   },
                 },
               },
@@ -104,6 +105,7 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
                   terms: {
                     field: `${IndexFields.FIELD_NEWS_NEIGHBOURHOODS}.keyword`,
                     order: { _key: 'asc' },
+                    size: 100000,
                   },
                 },
               },
@@ -134,6 +136,7 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
                   terms: {
                     field: `${IndexFields.FIELD_NEWS_GROUPS}.keyword`,
                     order: { _key: 'asc' },
+                    size: 100000,
                   },
                 },
               },
