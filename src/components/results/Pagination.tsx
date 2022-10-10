@@ -119,6 +119,7 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
           {prevPages.map((pageIndex, i) => (
             <li className='pager__item' key={i}>
               <a
+                aria-label={Drupal.t('Go to page @key', { '@key': pageIndex + 1 })}
                 href={`?${SearchComponents.RESULTS}=${pageIndex + 1}`}
                 className='hds-pagination__item-link'
                 onClick={(e) => setPageWithPrevent(e, pageIndex)}
@@ -139,6 +140,7 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
           {nextPages.map((pageIndex, i) => (
             <li className='pager__item' key={i}>
               <a
+                aria-label={Drupal.t('Go to page @key', { '@key': pageIndex + 1 })}
                 href={`?${SearchComponents.RESULTS}=${pageIndex + 1}`}
                 className='hds-pagination__item-link'
                 onClick={(e) => setPageWithPrevent(e, pageIndex)}
