@@ -30,7 +30,11 @@ const SelectionsContainer = ({ clearSelection, clearSelections, filters }: Selec
           onClick={() => clearSelection(option, key)}
         >
           <Button
-            aria-label={t('Remove item', {}, { context: 'News archive remove item aria label' })}
+            aria-label={t(
+              'Remove @item from search results',
+              { '@item': option.value },
+              { context: 'Search: remove item aria label' }
+            )}
             className='news-form__remove-selection-button'
             iconRight={<IconCross />}
             variant='supplementary'
