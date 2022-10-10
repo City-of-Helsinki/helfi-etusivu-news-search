@@ -3,14 +3,19 @@ import { ReactiveBase } from '@appbaseio/reactivesearch';
 import Settings from '../enum/Settings';
 
 type Props = {
+  apiUrl: string | undefined;
   children: React.ReactElement;
 };
 
-const BaseContainer = ({ children }: Props) => {
+const BaseContainer = ({ apiUrl, children }: Props) => {
+  if (!apiUrl && !process.env.REACT_APP_ELASTIC_URL) {
+    return null;
+  }
+
   return (
     <ReactiveBase
       app={Settings.INDEX}
-      url={process.env.REACT_APP_ELASTIC_URL}
+      url={apiUrl || process.env.REACT_APP_ELASTIC_URL}
       theme={{
         colors: {
           primaryColor: 'inherit',
