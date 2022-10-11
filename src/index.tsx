@@ -8,11 +8,9 @@ const rootSelector: string = 'helfi-etusivu-news-search';
 const rootElement: HTMLElement | null = document.getElementById(rootSelector);
 
 if (rootElement) {
-  const apiUrl = rootElement.dataset.elasticProxyUrl;
-
   ReactDOM.render(
     <React.StrictMode>
-      <BaseContainer apiUrl={apiUrl}>
+      <BaseContainer>
         <SearchContainer />
       </BaseContainer>
     </React.StrictMode>,

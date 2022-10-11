@@ -3,19 +3,20 @@ import { ReactiveBase } from '@appbaseio/reactivesearch';
 import Settings from '../enum/Settings';
 
 type Props = {
-  apiUrl: string | undefined;
   children: React.ReactElement;
 };
 
-const BaseContainer = ({ apiUrl, children }: Props) => {
-  if (!apiUrl && !process.env.REACT_APP_ELASTIC_URL) {
+const BaseContainer = ({ children }: Props) => {
+  const { elastic_proxy_url } = drupalSettings.helfi_news_archive;
+
+  if (!elastic_proxy_url && !process.env.REACT_APP_ELASTIC_URL) {
     return null;
   }
 
   return (
     <ReactiveBase
       app={Settings.INDEX}
-      url={apiUrl || process.env.REACT_APP_ELASTIC_URL}
+      url={elastic_proxy_url || process.env.REACT_APP_ELASTIC_URL}
       theme={{
         colors: {
           primaryColor: 'inherit',
