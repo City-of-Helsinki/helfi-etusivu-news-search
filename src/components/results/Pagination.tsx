@@ -180,7 +180,7 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
           <a
             aria-label={
               Drupal.t('Go to next page number', {}, { context: 'Pagination next page link title' }) +
-              ` ${currentPage + 1}`
+              ` ${currentPage + 2}`
             }
             className='hds-button hds-pagination__button-next'
             href={`?${SearchComponents.RESULTS}=${currentPage + 2}`}
