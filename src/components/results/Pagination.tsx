@@ -65,16 +65,19 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
           <a
             aria-label={
               Drupal.t('Go to previous page number', {}, { context: 'Pagination previous page link title' }) +
-              ` ${currentPage - 1}`
+              ` ${currentPage}`
             }
             className='hds-button hds-pagination__button-prev'
-            href={`?${SearchComponents.RESULTS}=${currentPage - 1}`}
+            href={`?${SearchComponents.RESULTS}=${currentPage}`}
             onClick={(e) => {
               if (prevPageExists) {
                 setPageWithPrevent(e, currentPage - 1);
               }
             }}
-            title={Drupal.t('Go to previous page', {}, { context: 'Pagination previous page link title' })}
+            title={
+              Drupal.t('Go to previous page number', {}, { context: 'Pagination previous page link title' }) +
+              ` ${currentPage}`
+            }
             type='button'
             rel='prev'
             role='button'
@@ -180,13 +183,16 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
               ` ${currentPage + 1}`
             }
             className='hds-button hds-pagination__button-next'
-            href={`?${SearchComponents.RESULTS}=${currentPage - 1}`}
+            href={`?${SearchComponents.RESULTS}=${currentPage + 2}`}
             onClick={(e) => {
               if (nextPageExists) {
                 setPageWithPrevent(e, currentPage + 1);
               }
             }}
-            title={Drupal.t('Go to next page', {}, { context: 'Pagination next page link title' })}
+            title={
+              Drupal.t('Go to next page number', {}, { context: 'Pagination next page link title' }) +
+              ` ${currentPage + 2}`
+            }
             type='button'
             rel='next'
             role='button'
