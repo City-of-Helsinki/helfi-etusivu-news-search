@@ -23,7 +23,7 @@
     "test": "TZ=UTC react-app-rewired test",
     "eject": "react-app-rewired eject",
     "prepare": "husky install",
-    "create-release": "rm helfi-etusivu-news-search.zip && npm run build && cd ./build/static/js && zip -r ../../../helfi-etusivu-news-search.zip ./*.js"
+    "create-release": "REACT_APP_ELASTIC_URL= rm helfi-etusivu-news-search.zip && npm run build && cd ./build/static/js && zip -r ../../../helfi-etusivu-news-search.zip ./*.js"
   },
   "browserslist": {
     "production": [
