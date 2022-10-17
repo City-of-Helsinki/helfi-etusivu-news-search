@@ -21,7 +21,6 @@ const SelectionsContainer = ({ clearSelection, clearSelections, filters }: Selec
   }
 
   const transformedFilters: any = [];
-  const { t } = Drupal;
   for (const [key, options] of Object.entries(filters)) {
     options.forEach((option: OptionType) => {
       transformedFilters.push(
@@ -30,7 +29,7 @@ const SelectionsContainer = ({ clearSelection, clearSelections, filters }: Selec
           onClick={() => clearSelection(option, key)}
         >
           <Button
-            aria-label={t(
+            aria-label={Drupal.t(
               'Remove @item from search results',
               { '@item': option.value },
               { context: 'Search: remove item aria label' }
