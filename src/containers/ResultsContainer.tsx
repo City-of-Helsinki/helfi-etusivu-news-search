@@ -5,6 +5,7 @@ import MostReadNews from '../components/results/MostReadNews';
 import Pagination from '../components/results/Pagination';
 import ResultCard from '../components/results/ResultCard';
 import ResultsHeading from '../components/results/ResultsHeading';
+import IndexFields from '../enum/IndexFields';
 import SearchComponents from '../enum/SearchComponents';
 import useLanguageQuery from '../hooks/useLanguageQuery';
 import useWindowDimensions from '../hooks/useWindowDimensions';
@@ -38,7 +39,7 @@ const ResultsContainer = () => {
         <ReactiveList
           className='news-container'
           componentId={SearchComponents.RESULTS}
-          dataField={'id'}
+          dataField={IndexFields.PUBLISHED_AT}
           onPageChange={onPageChange}
           pages={pages}
           pagination={true}
@@ -64,6 +65,7 @@ const ResultsContainer = () => {
             and: [SearchComponents.SUBMIT],
           }}
           showResultStats={false}
+          sortBy={'desc'}
           size={10}
           URLParams={true}
         />
