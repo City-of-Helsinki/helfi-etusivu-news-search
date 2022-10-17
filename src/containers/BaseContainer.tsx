@@ -7,16 +7,16 @@ type Props = {
 };
 
 const BaseContainer = ({ children }: Props) => {
-  const { elastic_proxy_url } = drupalSettings.helfi_news_archive;
+  const proxyUrl = drupalSettings?.helfi_news_archive?.elastic_proxy_url;
 
-  if (!elastic_proxy_url && !process.env.REACT_APP_ELASTIC_URL) {
+  if (!proxyUrl && !process.env.REACT_APP_ELASTIC_URL) {
     return null;
   }
 
   return (
     <ReactiveBase
       app={Settings.INDEX}
-      url={elastic_proxy_url || process.env.REACT_APP_ELASTIC_URL}
+      url={proxyUrl || process.env.REACT_APP_ELASTIC_URL}
       theme={{
         colors: {
           primaryColor: 'inherit',
