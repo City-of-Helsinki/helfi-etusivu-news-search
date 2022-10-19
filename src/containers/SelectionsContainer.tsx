@@ -16,10 +16,6 @@ type filtersType = {
 };
 
 const SelectionsContainer = ({ clearSelection, clearSelections, filters }: SelectionsContainerProps) => {
-  if (!filters.topics.length && !filters.neighbourhoods.length && !filters.groups.length) {
-    return null;
-  }
-
   const transformedFilters: any = [];
   Object.entries(filters).forEach((filter) => {
     const key = filter[0];
@@ -55,9 +51,11 @@ const SelectionsContainer = ({ clearSelection, clearSelections, filters }: Selec
         {transformedFilters}
         <li className='news-form__clear-all'>
           <Button
+            aria-hidden={transformedFilters.length ? 'true' : 'false'}
             className='news-form__clear-all-button'
             iconLeft={<IconCross className='news-form__clear-all-icon' />}
             onClick={clearSelections}
+            style={transformedFilters.length ? {} : { visibility: 'hidden' }}
             variant='supplementary'
           >
             {Drupal.t('Clear selections', {}, { context: 'News archive clear selections' })}
