@@ -21,11 +21,15 @@ const SelectionsContainer = ({ clearSelection, clearSelections, filters }: Selec
   }
 
   const transformedFilters: any = [];
-  for (const [key, options] of Object.entries(filters)) {
-    options.forEach((option: OptionType) => {
+  Object.entries(filters).forEach((filter) => {
+    const key = filter[0];
+    const options = filter[1];
+
+    options.forEach((option: OptionType, i: number) => {
       transformedFilters.push(
         <li
           className='content-tags__tags__tag content-tags__tags--interactive'
+          key={`${key}-${option.value}`}
           onClick={() => clearSelection(option, key)}
         >
           <Button
@@ -43,7 +47,7 @@ const SelectionsContainer = ({ clearSelection, clearSelections, filters }: Selec
         </li>
       );
     });
-  }
+  });
 
   return (
     <div className='news-form__selections-wrapper'>
