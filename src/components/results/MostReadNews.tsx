@@ -1,5 +1,5 @@
 const MostReadNews = () => {
-  const mostReadBlocks = document.querySelector('noscript.most-read-news')?.innerHTML;
+  const mostReadBlocks = (document.querySelector('noscript.most-read-news') as HTMLElement)?.innerText;
 
   if (!mostReadBlocks) {
     return null;
