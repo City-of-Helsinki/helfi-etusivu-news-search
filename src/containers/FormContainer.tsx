@@ -89,6 +89,7 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
                 aggregations={aggregations}
                 indexKey={`${IndexFields.FIELD_NEWS_ITEM_TAGS}`}
                 label={Drupal.t('Topics', {}, { context: 'News archive topics label' })}
+                weight={3}
                 placeholder={Drupal.t('All topics', {}, { context: 'News archive topics placeholder' })}
                 setQuery={setQuery}
                 setValue={setTopics}
@@ -116,6 +117,7 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
                 aggregations={aggregations}
                 indexKey={`${IndexFields.FIELD_NEWS_NEIGHBOURHOODS}`}
                 label={Drupal.t('City disctricts', {}, { context: 'News archive neighbourhoods label' })}
+                weight={2}
                 placeholder={Drupal.t(
                   'All city disctricts',
                   {},
@@ -147,6 +149,7 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
                 aggregations={aggregations}
                 indexKey={`${IndexFields.FIELD_NEWS_GROUPS}`}
                 label={Drupal.t('Target groups', {}, { context: 'News archive groups label' })}
+                weight={1}
                 placeholder={Drupal.t('All target groups', {}, { context: 'News archive groups placeholder' })}
                 setQuery={setQuery}
                 setValue={setGroups}

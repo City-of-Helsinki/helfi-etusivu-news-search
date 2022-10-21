@@ -12,6 +12,7 @@ type DropdownProps = Omit<
 > & {
   aggregations: Aggregations;
   label: string;
+  weight?: number;
   indexKey: string;
   setQuery: Function;
   setValue: Function;
@@ -25,6 +26,7 @@ export const Dropdown = ({
   aggregations,
   indexKey,
   label,
+  weight,
   placeholder,
   setQuery,
   setValue,
@@ -45,8 +47,12 @@ export const Dropdown = ({
 
   return (
     <div className='news-form__filter'>
-      <div className='news-form__filter-container'>
+      <div
+        className='news-form__filter-container'
+        style={weight ? ({ '--menu-z-index': weight++ } as React.CSSProperties) : {}}
+      >
         <Combobox
+          className='news-form__combobox'
           clearButtonAriaLabel={clearButtonAriaLabel}
           label={label}
           options={options}
