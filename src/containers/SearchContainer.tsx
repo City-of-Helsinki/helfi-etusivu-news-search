@@ -25,7 +25,7 @@ const SearchContainer = () => {
 
   return (
     <div>
-      <FormContainer initialState={getInitialParams()} />
+      {/* <FormContainer initialState={getInitialParams()} /> */}
       <ResultsContainer />
     </div>
   );
