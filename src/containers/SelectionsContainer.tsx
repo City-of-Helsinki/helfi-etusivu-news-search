@@ -16,16 +16,16 @@ type filtersType = {
 };
 
 const SelectionsContainer = ({ clearSelection, clearSelections, filters }: SelectionsContainerProps) => {
-  if (!filters.topics.length && !filters.neighbourhoods.length && !filters.groups.length) {
-    return null;
-  }
-
   const transformedFilters: any = [];
-  for (const [key, options] of Object.entries(filters)) {
-    options.forEach((option: OptionType) => {
+  Object.entries(filters).forEach((filter) => {
+    const key = filter[0];
+    const options = filter[1];
+
+    options.forEach((option: OptionType, i: number) => {
       transformedFilters.push(
         <li
           className='content-tags__tags__tag content-tags__tags--interactive'
+          key={`${key}-${option.value}`}
           onClick={() => clearSelection(option, key)}
         >
           <Button
@@ -43,7 +43,7 @@ const SelectionsContainer = ({ clearSelection, clearSelections, filters }: Selec
         </li>
       );
     });
-  }
+  });
 
   return (
     <div className='news-form__selections-wrapper'>
@@ -51,9 +51,11 @@ const SelectionsContainer = ({ clearSelection, clearSelections, filters }: Selec
         {transformedFilters}
         <li className='news-form__clear-all'>
           <Button
+            aria-hidden={transformedFilters.length ? 'true' : 'false'}
             className='news-form__clear-all-button'
             iconLeft={<IconCross className='news-form__clear-all-icon' />}
             onClick={clearSelections}
+            style={transformedFilters.length ? {} : { visibility: 'hidden' }}
             variant='supplementary'
           >
             {Drupal.t('Clear selections', {}, { context: 'News archive clear selections' })}
