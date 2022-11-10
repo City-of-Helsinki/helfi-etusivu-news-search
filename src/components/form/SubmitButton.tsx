@@ -4,14 +4,17 @@ import { useCallback, useEffect, useState } from 'react';
 import IndexFields from '../../enum/IndexFields';
 import SearchComponents from '../../enum/SearchComponents';
 import { useLanguageQuery } from '../../hooks/useLanguageQuery';
+import useSearchParams from '../../hooks/useSearchParams';
 import type BooleanQuery from '../../types/BooleanQuery';
-import { TermQuery } from '../../types/BooleanQuery';
+import { TermsQuery } from '../../types/BooleanQuery';
 
 type SearchStateItem = {
+  aggregations?: any;
   value: Array<string>;
 };
 
 type Props = {
+  initialized: boolean;
   searchState: {
     [key: string]: SearchStateItem;
   };
@@ -24,9 +27,11 @@ export const ComponentMap = {
   [SearchComponents.NEWS_GROUPS]: `${IndexFields.FIELD_NEWS_GROUPS}.keyword`,
 };
 
-export const SubmitButton = ({ searchState, setQuery }: Props) => {
+export const SubmitButton = ({ initialized, searchState, setQuery }: Props) => {
   const [mounted, setMounted] = useState<boolean>(false);
   const languageFilter = useLanguageQuery();
+  const [, updateParams] = useSearchParams();
+
   const getQuery = useCallback(() => {
     let query: BooleanQuery = {
       bool: {
@@ -37,16 +42,14 @@ export const SubmitButton = ({ searchState, setQuery }: Props) => {
 
     Object.keys(ComponentMap).forEach((key: string) => {
       const state = searchState[key] || null;
-      const should: TermQuery[] = [];
+      const should: TermsQuery[] = [];
 
-      if (state && state.value) {
-        state.value.forEach((value: string) =>
-          should.push({
-            term: {
-              [ComponentMap[key]]: value,
-            },
-          })
-        );
+      if (state && state.value && state.value.length) {
+        should.push({
+          terms: {
+            [ComponentMap[key]]: state.value,
+          },
+        });
       }
 
       if (should.length && query.bool?.must) {
@@ -66,22 +69,34 @@ export const SubmitButton = ({ searchState, setQuery }: Props) => {
     return result;
   }, [languageFilter, searchState]);
 
-  useEffect(() => {
-    if (mounted) {
-      return;
-    }
-
+  const onClick = () => {
     setQuery(getQuery());
-    setMounted(true);
-  }, [getQuery, setQuery, mounted, setMounted]);
+    if (
+      searchState[SearchComponents.NEIGHBOURHOODS]?.value ||
+      searchState[SearchComponents.NEWS_GROUPS]?.value ||
+      searchState[SearchComponents.TOPIC]?.value
+    ) {
+      updateParams({
+        [SearchComponents.NEIGHBOURHOODS]: searchState[SearchComponents.NEIGHBOURHOODS]?.value,
+        [SearchComponents.NEWS_GROUPS]: searchState[SearchComponents.NEWS_GROUPS]?.value,
+        [SearchComponents.TOPIC]: searchState[SearchComponents.TOPIC]?.value,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (initialized && !mounted) {
+      setQuery(getQuery());
+      setMounted(true);
+    }
+  }, [getQuery, initialized, mounted, setMounted, setQuery]);
 
   return (
     <Button
       className='news-form__submit-button'
+      disabled={!initialized}
       type='submit'
-      onClick={() => {
-        setQuery(getQuery());
-      }}
+      onClick={onClick}
       variant='primary'
     >
       {Drupal.t('Filter')}

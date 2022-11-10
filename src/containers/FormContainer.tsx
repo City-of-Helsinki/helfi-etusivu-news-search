@@ -1,5 +1,4 @@
-import { ReactiveComponent } from '@appbaseio/reactivesearch';
-import { StateProvider } from '@appbaseio/reactivesearch';
+import { ReactiveComponent, StateProvider } from '@appbaseio/reactivesearch';
 import { useRef, useState } from 'react';
 
 import Dropdown from '../components/form//Dropdown';
@@ -7,63 +6,72 @@ import SubmitButton from '../components/form/SubmitButton';
 import IndexFields from '../enum/IndexFields';
 import SearchComponents from '../enum/SearchComponents';
 import useLanguageQuery from '../hooks/useLanguageQuery';
-import type OptionType from '../types/OptionType';
-import SelectionsContainer from './SelectionsContainer';
+import useSearchParams from '../hooks/useSearchParams';
+import InitialState from '../types/InitialState';
 
-type FormContainerParams = {
-  initialState: {
-    topics: OptionType[];
-    neighbourhoods: OptionType[];
-    groups: OptionType[];
-  };
+// import type OptionType from '../types/OptionType';
+// import SelectionsContainer from './SelectionsContainer';
+
+type InitializationMap = {
+  [key: string]: boolean;
 };
 
-export const FormContainer = ({ initialState }: FormContainerParams) => {
-  const [topics, setTopics] = useState(initialState.topics);
-  const [neighbourhoods, setNeighbourhoods] = useState(initialState.neighbourhoods);
-  const [groups, setGroups] = useState(initialState.groups);
+export const FormContainer = () => {
+  const [initialized, setIinitialized] = useState<InitializationMap>({
+    [SearchComponents.NEWS_GROUPS]: false,
+    [SearchComponents.NEIGHBOURHOODS]: false,
+    [SearchComponents.TOPIC]: false,
+  });
   const languageFilter = useLanguageQuery();
   const submitButton = useRef<any>(null);
+  const [initialParams] = useSearchParams();
 
-  const clearSelections = () => {
-    setTopics([]);
-    setNeighbourhoods([]);
-    setGroups([]);
+  const initialize = (key: string) => {
+    const afterInitialize = {
+      ...initialized,
+      [key]: true,
+    };
 
-    if (submitButton && submitButton.current) {
-      submitButton.current.setQuery({ query: null });
-    }
+    setIinitialized(afterInitialize);
   };
 
-  const clearSelection = (selection: OptionType, selectionType: string) => {
-    let state;
-    let stateHandler;
-    switch (selectionType) {
-      case 'topics':
-        state = [...topics];
-        stateHandler = setTopics;
-        break;
-      case 'neighbourhoods':
-        state = [...neighbourhoods];
-        stateHandler = setNeighbourhoods;
-        break;
-      case 'groups':
-        state = [...groups];
-        stateHandler = setGroups;
-        break;
-      default:
-        break;
-    }
+  // const clearSelections = () => {
+  //   setSearchState({});
 
-    const index = state?.findIndex((option) => {
-      return option.value === selection.value;
-    });
+  //   if (submitButton && submitButton.current) {
+  //     submitButton.current.setQuery({ query: null });
+  //   }
+  // };
 
-    if (index !== undefined && state && stateHandler) {
-      state.splice(index, 1);
-      stateHandler(state);
-    }
-  };
+  // const clearSelection = (selection: OptionType, selectionType: string) => {
+  //   let state;
+  //   let stateHandler;
+  //   switch (selectionType) {
+  //     case 'topics':
+  //       state = [...topics];
+  //       stateHandler = setTopics;
+  //       break;
+  //     case 'neighbourhoods':
+  //       state = [...neighbourhoods];
+  //       stateHandler = setNeighbourhoods;
+  //       break;
+  //     case 'groups':
+  //       state = [...groups];
+  //       stateHandler = setGroups;
+  //       break;
+  //     default:
+  //       break;
+  //   }
+
+  //   const index = state?.findIndex((option) => {
+  //     return option.value === selection.value;
+  //   });
+
+  //   if (index !== undefined && state && stateHandler) {
+  //     state.splice(index, 1);
+  //     stateHandler(state);
+  //   }
+  // };
 
   return (
     <div className='news-form-wrapper'>
@@ -87,16 +95,16 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
             render={({ aggregations, setQuery }) => (
               <Dropdown
                 aggregations={aggregations}
+                componentId={SearchComponents.TOPIC}
+                initialize={initialize}
                 indexKey={`${IndexFields.FIELD_NEWS_ITEM_TAGS}`}
+                initialValue={initialParams[SearchComponents.TOPIC as keyof InitialState]}
                 label={Drupal.t('Topics', {}, { context: 'News archive topics label' })}
                 weight={3}
                 placeholder={Drupal.t('All topics', {}, { context: 'News archive topics placeholder' })}
                 setQuery={setQuery}
-                setValue={setTopics}
-                value={topics}
               />
             )}
-            URLParams={true}
           />
           <ReactiveComponent
             componentId={SearchComponents.NEIGHBOURHOODS}
@@ -115,7 +123,10 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
             render={({ aggregations, setQuery }) => (
               <Dropdown
                 aggregations={aggregations}
+                componentId={SearchComponents.NEIGHBOURHOODS}
                 indexKey={`${IndexFields.FIELD_NEWS_NEIGHBOURHOODS}`}
+                initialize={initialize}
+                initialValue={initialParams[SearchComponents.NEIGHBOURHOODS as keyof InitialState]}
                 label={Drupal.t('City disctricts', {}, { context: 'News archive neighbourhoods label' })}
                 weight={2}
                 placeholder={Drupal.t(
@@ -124,11 +135,8 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
                   { context: 'News archive neighbourhoods placeholder' }
                 )}
                 setQuery={setQuery}
-                setValue={setNeighbourhoods}
-                value={neighbourhoods}
               />
             )}
-            URLParams={true}
           />
           <ReactiveComponent
             componentId={SearchComponents.NEWS_GROUPS}
@@ -147,13 +155,14 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
             render={({ aggregations, setQuery }) => (
               <Dropdown
                 aggregations={aggregations}
+                componentId={SearchComponents.NEWS_GROUPS}
                 indexKey={`${IndexFields.FIELD_NEWS_GROUPS}`}
+                initialize={initialize}
+                initialValue={initialParams[SearchComponents.NEWS_GROUPS as keyof InitialState]}
                 label={Drupal.t('Target groups', {}, { context: 'News archive groups label' })}
                 weight={1}
                 placeholder={Drupal.t('All target groups', {}, { context: 'News archive groups placeholder' })}
                 setQuery={setQuery}
-                setValue={setGroups}
-                value={groups}
               />
             )}
             URLParams={true}
@@ -163,18 +172,22 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
             ref={submitButton}
             render={({ setQuery }) => {
               return (
-                <StateProvider includeKeys={['value']}>
-                  {({ searchState }) => (
-                    <div className='news-form__submit'>
-                      <SubmitButton searchState={searchState} setQuery={setQuery} />
-                    </div>
-                  )}
+                <StateProvider>
+                  {({ searchState }) => {
+                    return (
+                      <SubmitButton
+                        initialized={!Object.values(initialized).includes(false)}
+                        searchState={searchState}
+                        setQuery={setQuery}
+                      />
+                    );
+                  }}
                 </StateProvider>
               );
             }}
           />
         </div>
-        <SelectionsContainer
+        {/* <SelectionsContainer
           clearSelection={clearSelection}
           clearSelections={clearSelections}
           filters={{
@@ -182,7 +195,7 @@ export const FormContainer = ({ initialState }: FormContainerParams) => {
             neighbourhoods: neighbourhoods,
             groups: groups,
           }}
-        />
+        /> */}
       </div>
     </div>
   );

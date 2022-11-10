@@ -5,9 +5,16 @@ export type TermQuery = {
   bool?: QueryArray;
 };
 
+export type TermsQuery = {
+  terms?: {
+    [key: string]: string[];
+  };
+  bool?: QueryArray;
+};
+
 export type QueryArray = {
-  must?: TermQuery[];
-  should?: TermQuery[];
+  must?: TermsQuery[];
+  should?: TermsQuery[];
   filter?: TermQuery[];
   minimum_should_match?: number;
 };

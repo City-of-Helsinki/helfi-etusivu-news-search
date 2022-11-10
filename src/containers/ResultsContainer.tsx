@@ -67,7 +67,6 @@ const ResultsContainer = () => {
           showResultStats={false}
           sortBy={'desc'}
           size={10}
-          URLParams={true}
         />
       </div>
       <MostReadNews />
