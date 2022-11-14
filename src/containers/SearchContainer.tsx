@@ -1,3 +1,5 @@
+import { StateProvider } from '@appbaseio/reactivesearch';
+
 import FormContainer from './FormContainer';
 import ResultsContainer from './ResultsContainer';
 
@@ -5,7 +7,11 @@ import ResultsContainer from './ResultsContainer';
 const SearchContainer = () => {
   return (
     <div>
-      <FormContainer />
+      <StateProvider
+        render={({ searchState, setSearchState }) => (
+          <FormContainer searchState={searchState} setSearchState={setSearchState} />
+        )}
+      />
       <ResultsContainer />
     </div>
   );

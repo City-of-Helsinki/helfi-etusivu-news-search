@@ -1,26 +1,22 @@
 import { Button, IconCross } from 'hds-react';
-import { MouseEventHandler, MutableRefObject, ReactElement, memo } from 'react';
+import { ReactElement, memo } from 'react';
 
 import SearchComponents from '../enum/SearchComponents';
 import useSearchParams from '../hooks/useSearchParams';
 import type OptionType from '../types/OptionType';
 
 type SelectionsContainerProps = {
+  clearSelection: Function;
   searchState: any;
   setSearchState: Function;
-  submitRef: MutableRefObject<any>;
 };
 
-const SelectionsContainer = ({ searchState, setSearchState, submitRef }: SelectionsContainerProps) => {
+const SelectionsContainer = ({ clearSelection, searchState, setSearchState }: SelectionsContainerProps) => {
   const [, updateParams] = useSearchParams();
 
   const clearSelections = () => {
     setSearchState({});
     updateParams({});
-  };
-
-  const clearSelection = (option: OptionType, key: string) => {
-    const currentState = { ...searchState };
   };
 
   const filters: ReactElement<HTMLLIElement>[] = [];
