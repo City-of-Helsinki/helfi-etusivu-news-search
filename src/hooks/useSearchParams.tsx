@@ -69,7 +69,11 @@ const useSearchParams = () => {
       result = entries.next();
     }
 
-    window.history.pushState({}, '', `${baseUrl}?${allParamsString}`);
+    if (allParamsString.length) {
+      allParamsString = '?' + allParamsString;
+    }
+
+    window.history.pushState({}, '', `${baseUrl}${allParamsString}`);
   };
 
   const updateParams = (options: UpdateOptions) => {
