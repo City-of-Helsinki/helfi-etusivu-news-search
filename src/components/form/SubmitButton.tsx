@@ -1,4 +1,5 @@
 import { Button } from 'hds-react';
+import hash from 'object-hash';
 import { useCallback, useEffect, useState } from 'react';
 
 import IndexFields from '../../enum/IndexFields';
@@ -60,11 +61,11 @@ export const SubmitButton = ({ initialized, searchState, setQuery }: Props) => {
 
     let result = {
       query: query,
-      value: 0,
+      value: '',
     };
 
     if (query.bool?.must?.length) {
-      result.value = query.bool.must.length;
+      result.value = hash(query.bool.must);
     }
 
     return result;

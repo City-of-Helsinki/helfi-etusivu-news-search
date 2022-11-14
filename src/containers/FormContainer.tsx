@@ -11,24 +11,28 @@ import InitialState from '../types/InitialState';
 import SelectionsContainer from './SelectionsContainer';
 
 type InitializationMap = {
-  [key: string]: boolean;
+  groups: boolean;
+  neighbourhoods: boolean;
+  topic: boolean;
 };
 
 type InitialParam = Omit<InitialState, 'page'>;
 
 export const FormContainer = () => {
   const [initialized, setIinitialized] = useState<InitializationMap>({
-    [SearchComponents.NEWS_GROUPS]: false,
-    [SearchComponents.NEIGHBOURHOODS]: false,
-    [SearchComponents.TOPIC]: false,
+    groups: false,
+    neighbourhoods: false,
+    topic: false,
   });
   const languageFilter = useLanguageQuery();
   const submitButton = useRef<any>(null);
   const [initialParams] = useSearchParams();
 
   const initialize = (key: string) => {
-    setIinitialized((prev) => ({ ...prev, [key]: true }));
+    setIinitialized((prev: InitializationMap) => ({ ...prev, [key]: true }));
   };
+
+  const { topic, neighbourhoods, groups } = initialized;
 
   return (
     <div className='news-form-wrapper'>
@@ -136,6 +140,7 @@ export const FormContainer = () => {
           />
           <ReactiveComponent
             componentId={SearchComponents.SUBMIT}
+            react={{ and: [SearchComponents.TOPIC, SearchComponents.NEIGHBOURHOODS, SearchComponents.NEWS_GROUPS] }}
             ref={submitButton}
             render={({ setQuery }) => {
               return (
@@ -144,7 +149,7 @@ export const FormContainer = () => {
                     return (
                       <div className='news-form__submit'>
                         <SubmitButton
-                          initialized={!Object.values(initialized).includes(false)}
+                          initialized={topic && neighbourhoods && groups}
                           searchState={searchState}
                           setQuery={setQuery}
                         />
