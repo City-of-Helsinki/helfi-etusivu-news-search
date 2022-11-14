@@ -17,6 +17,7 @@ type DropdownProps = Omit<
   weight?: number;
   indexKey: string;
   initialize: Function;
+  searchState: any;
   setQuery: Function;
   clearButtonAriaLabel?: string;
   selectedItemRemoveButtonAriaLabel?: string;
@@ -32,6 +33,7 @@ export const Dropdown = ({
   label,
   weight,
   placeholder,
+  searchState,
   setQuery,
   clearButtonAriaLabel = Drupal.t('Clear selection', {}, { context: 'News archive clear button aria label' }),
   selectedItemRemoveButtonAriaLabel = Drupal.t('Remove item', {}, { context: 'News archive remove item aria label' }),
@@ -39,11 +41,11 @@ export const Dropdown = ({
 }: DropdownProps) => {
   const options: OptionType[] = useAggregations(aggregations, indexKey);
   const [loading, setLoading] = useState<boolean>(true);
-  const [value, setValue] = useState<OptionType[]>([]);
 
   useEffect(() => {
     if (loading && aggregations && options) {
-      if (initialValue.length) {
+      if (!initialValue.length) {
+        initialize(componentId);
         setLoading(false);
         return;
       }
@@ -58,14 +60,15 @@ export const Dropdown = ({
         }
       });
 
-      setValue(values);
       setQuery({
-        value: values.map((value: OptionType) => value.value),
+        value: values,
       });
       initialize(componentId);
       setLoading(false);
     }
   }, [aggregations, componentId, initialize, initialValue, loading, options, setQuery]);
+
+  const value: OptionType[] = searchState[componentId]?.value || [];
 
   return (
     <div className='news-form__filter'>
@@ -80,9 +83,8 @@ export const Dropdown = ({
           label={label}
           options={options}
           onChange={(value: OptionType[]) => {
-            setValue(value);
             setQuery({
-              value: value.map((value: OptionType) => value.value),
+              value: value,
             });
           }}
           placeholder={placeholder}

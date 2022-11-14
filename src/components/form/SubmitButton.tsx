@@ -7,10 +7,11 @@ import { useLanguageQuery } from '../../hooks/useLanguageQuery';
 import useSearchParams from '../../hooks/useSearchParams';
 import type BooleanQuery from '../../types/BooleanQuery';
 import { TermsQuery } from '../../types/BooleanQuery';
+import OptionType from '../../types/OptionType';
 
 type SearchStateItem = {
   aggregations?: any;
-  value: Array<string>;
+  value: OptionType[];
 };
 
 type Props = {
@@ -47,7 +48,7 @@ export const SubmitButton = ({ initialized, searchState, setQuery }: Props) => {
       if (state && state.value && state.value.length) {
         should.push({
           terms: {
-            [ComponentMap[key]]: state.value,
+            [ComponentMap[key]]: state.value.map((value: OptionType) => value.value),
           },
         });
       }
@@ -71,17 +72,15 @@ export const SubmitButton = ({ initialized, searchState, setQuery }: Props) => {
 
   const onClick = () => {
     setQuery(getQuery());
-    if (
-      searchState[SearchComponents.NEIGHBOURHOODS]?.value ||
-      searchState[SearchComponents.NEWS_GROUPS]?.value ||
-      searchState[SearchComponents.TOPIC]?.value
-    ) {
-      updateParams({
-        [SearchComponents.NEIGHBOURHOODS]: searchState[SearchComponents.NEIGHBOURHOODS]?.value,
-        [SearchComponents.NEWS_GROUPS]: searchState[SearchComponents.NEWS_GROUPS]?.value,
-        [SearchComponents.TOPIC]: searchState[SearchComponents.TOPIC]?.value,
-      });
-    }
+    updateParams({
+      [SearchComponents.NEIGHBOURHOODS]: searchState[SearchComponents.NEIGHBOURHOODS]?.value?.map(
+        (value: OptionType) => value.value
+      ),
+      [SearchComponents.NEWS_GROUPS]: searchState[SearchComponents.NEWS_GROUPS]?.value?.map(
+        (value: OptionType) => value.value
+      ),
+      [SearchComponents.TOPIC]: searchState[SearchComponents.TOPIC]?.value?.map((value: OptionType) => value.value),
+    });
   };
 
   useEffect(() => {
