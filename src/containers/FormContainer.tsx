@@ -142,11 +142,13 @@ export const FormContainer = () => {
                 <StateProvider>
                   {({ searchState }) => {
                     return (
-                      <SubmitButton
-                        initialized={!Object.values(initialized).includes(false)}
-                        searchState={searchState}
-                        setQuery={setQuery}
-                      />
+                      <div className='news-form__submit'>
+                        <SubmitButton
+                          initialized={!Object.values(initialized).includes(false)}
+                          searchState={searchState}
+                          setQuery={setQuery}
+                        />
+                      </div>
                     );
                   }}
                 </StateProvider>
