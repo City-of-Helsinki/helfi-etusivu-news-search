@@ -6,6 +6,7 @@ type UpdateOptions = {
   groups?: any;
   neighbourhoods?: any;
   topic?: any;
+  page?: number;
 };
 
 const paramsToState = (params: MutableRefObject<URLSearchParams>) => {
@@ -23,10 +24,15 @@ const paramsToState = (params: MutableRefObject<URLSearchParams>) => {
     const matchedKey = keys.find((stateKey) => key.includes(stateKey));
 
     if (matchedKey) {
-      initialParams[matchedKey as keyof InitialState]?.push(value);
+      initialParams[matchedKey as keyof Omit<InitialState, 'page'>]?.push(value);
     }
 
     result = entries.next();
+  }
+
+  const intialPage = params.current.get('page');
+  if (intialPage) {
+    initialParams.page = Number(intialPage) - 1;
   }
 
   return initialParams;
@@ -47,12 +53,16 @@ const useSearchParams = () => {
       const parsedValue = JSON.parse(value);
       let paramString = '';
 
-      for (let i = 0; i < parsedValue.length; i++) {
-        if (paramString.length) {
-          paramString += '&';
-        }
+      if (key === 'page') {
+        paramString = `${key}=${value}`;
+      } else {
+        for (let i = 0; i < parsedValue.length; i++) {
+          if (paramString.length) {
+            paramString += '&';
+          }
 
-        paramString += `${key}[${i}]=${parsedValue[i].replaceAll(' ', '+').toLowerCase()}`;
+          paramString += `${key}[${i}]=${parsedValue[i].replaceAll(' ', '+').toLowerCase()}`;
+        }
       }
 
       allParamsString += allParamsString.length ? '&' + paramString : paramString;
@@ -67,7 +77,9 @@ const useSearchParams = () => {
     for (const key in options) {
       const selections = options[key as keyof UpdateOptions];
 
-      if (selections?.length) {
+      if (key === 'page') {
+        urlSearchParams.current.set(key, selections);
+      } else if (selections?.length) {
         const values = selections.map((selection: any) => selection);
         urlSearchParams.current.set(key, JSON.stringify(values));
       }
