@@ -12,7 +12,7 @@ type DropdownProps = Omit<
 > & {
   aggregations: Aggregations;
   componentId: string;
-  initialValue: any;
+  initialValue: string[];
   label: string;
   weight?: number;
   indexKey: string;
@@ -39,15 +39,26 @@ export const Dropdown = ({
 }: DropdownProps) => {
   const options: OptionType[] = useAggregations(aggregations, indexKey);
   const [loading, setLoading] = useState<boolean>(true);
-  const [defaultValue, setDefaultValue] = useState<OptionType[]>([]);
+  const [value, setValue] = useState<OptionType[]>([]);
 
   useEffect(() => {
     if (loading && aggregations && options) {
-      const values = initialValue.map((value: string) =>
-        options.find((option) => option.value.toLocaleLowerCase() === value)
-      );
+      if (initialValue.length) {
+        setLoading(false);
+        return;
+      }
 
-      setDefaultValue(values);
+      const values: OptionType[] = [];
+
+      initialValue.forEach((value: string) => {
+        const option = options.find((option) => option.value.toLocaleLowerCase() === value);
+
+        if (option) {
+          values.push(option);
+        }
+      });
+
+      setValue(values);
       setQuery({
         value: values.map((value: OptionType) => value.value),
       });
@@ -62,46 +73,29 @@ export const Dropdown = ({
         className='news-form__filter-container'
         style={weight ? ({ '--menu-z-index': weight++ } as React.CSSProperties) : {}}
       >
-        {loading ? (
-          <Combobox
-            className='news-form__combobox'
-            clearButtonAriaLabel={clearButtonAriaLabel}
-            disabled={true}
-            label={label}
-            options={[]}
-            placeholder={placeholder}
-            multiselect={true}
-            selectedItemRemoveButtonAriaLabel={selectedItemRemoveButtonAriaLabel}
-            toggleButtonAriaLabel={toggleButtonAriaLabel}
-            theme={{
-              '--focus-outline-color': 'var(--hdbt-color-black)',
-              '--multiselect-checkbox-background-selected': 'var(--hdbt-color-black)',
-              '--placeholder-color': 'var(--hdbt-color-black)',
-            }}
-          />
-        ) : (
-          <Combobox
-            className='news-form__combobox'
-            clearButtonAriaLabel={clearButtonAriaLabel}
-            defaultValue={defaultValue}
-            label={label}
-            options={options}
-            onChange={(value: OptionType[]) => {
-              setQuery({
-                value: value.map((value: OptionType) => value.value),
-              });
-            }}
-            placeholder={placeholder}
-            multiselect={true}
-            selectedItemRemoveButtonAriaLabel={selectedItemRemoveButtonAriaLabel}
-            toggleButtonAriaLabel={toggleButtonAriaLabel}
-            theme={{
-              '--focus-outline-color': 'var(--hdbt-color-black)',
-              '--multiselect-checkbox-background-selected': 'var(--hdbt-color-black)',
-              '--placeholder-color': 'var(--hdbt-color-black)',
-            }}
-          />
-        )}
+        <Combobox
+          className='news-form__combobox'
+          clearButtonAriaLabel={clearButtonAriaLabel}
+          disabled={loading}
+          label={label}
+          options={options}
+          onChange={(value: OptionType[]) => {
+            setValue(value);
+            setQuery({
+              value: value.map((value: OptionType) => value.value),
+            });
+          }}
+          placeholder={placeholder}
+          multiselect={true}
+          selectedItemRemoveButtonAriaLabel={selectedItemRemoveButtonAriaLabel}
+          toggleButtonAriaLabel={toggleButtonAriaLabel}
+          theme={{
+            '--focus-outline-color': 'var(--hdbt-color-black)',
+            '--multiselect-checkbox-background-selected': 'var(--hdbt-color-black)',
+            '--placeholder-color': 'var(--hdbt-color-black)',
+          }}
+          value={value}
+        />
       </div>
     </div>
   );
