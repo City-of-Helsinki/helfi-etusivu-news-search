@@ -39,41 +39,13 @@ const paramsToState = (params: MutableRefObject<URLSearchParams>) => {
 };
 
 const useSearchParams = () => {
-  let urlSearchParams = useRef<URLSearchParams>(new URLSearchParams(window.location.search));
+  const urlSearchParams = useRef<URLSearchParams>(new URLSearchParams(window.location.search));
   const initialParams = paramsToState(urlSearchParams);
 
   const updateUrl = (urlSearchParams: MutableRefObject<URLSearchParams>) => {
-    let allParamsString = '';
-    const baseUrl = window.location.origin;
-    const entries = urlSearchParams.current.entries();
-    let result = entries.next();
-
-    while (!result.done) {
-      const [key, value] = result.value;
-      const parsedValue = JSON.parse(value);
-      let paramString = '';
-
-      if (key === 'page') {
-        paramString = `${key}=${value}`;
-      } else {
-        for (let i = 0; i < parsedValue.length; i++) {
-          if (paramString.length) {
-            paramString += '&';
-          }
-
-          paramString += `${key}[${i}]=${parsedValue[i].replaceAll(' ', '+').toLowerCase()}`;
-        }
-      }
-
-      allParamsString += allParamsString.length ? '&' + paramString : paramString;
-      result = entries.next();
-    }
-
-    if (allParamsString.length) {
-      allParamsString = '?' + allParamsString;
-    }
-
-    window.history.pushState({}, '', `${baseUrl}${allParamsString}`);
+    const newUrl = new URL(window.location.pathname, window.location.origin);
+    newUrl.search = urlSearchParams.current.toString();
+    window.history.pushState({}, '', newUrl.toString());
   };
 
   const updateParams = (options: UpdateOptions) => {
