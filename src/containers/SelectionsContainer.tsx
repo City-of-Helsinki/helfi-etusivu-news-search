@@ -1,61 +1,63 @@
 import { Button, IconCross } from 'hds-react';
-import { MouseEventHandler } from 'react';
+import { ReactElement, memo } from 'react';
 
+import SearchComponents from '../enum/SearchComponents';
+import useSearchParams from '../hooks/useSearchParams';
 import type OptionType from '../types/OptionType';
 
 type SelectionsContainerProps = {
   clearSelection: Function;
-  clearSelections: MouseEventHandler<HTMLButtonElement>;
-  filters: filtersType;
+  searchState: any;
+  setSearchState: Function;
 };
 
-type filtersType = {
-  topics: OptionType[];
-  neighbourhoods: OptionType[];
-  groups: OptionType[];
-};
+const SelectionsContainer = ({ clearSelection, searchState, setSearchState }: SelectionsContainerProps) => {
+  const [, updateParams] = useSearchParams();
 
-const SelectionsContainer = ({ clearSelection, clearSelections, filters }: SelectionsContainerProps) => {
-  const transformedFilters: any = [];
-  Object.entries(filters).forEach((filter) => {
-    const key = filter[0];
-    const options = filter[1];
+  const clearSelections = () => {
+    setSearchState({});
+    updateParams({});
+  };
 
-    options.forEach((option: OptionType, i: number) => {
-      transformedFilters.push(
-        <li
-          className='content-tags__tags__tag content-tags__tags--interactive'
-          key={`${key}-${option.value}`}
-          onClick={() => clearSelection(option, key)}
-        >
-          <Button
-            aria-label={Drupal.t(
-              'Remove @item from search results',
-              { '@item': option.value },
-              { context: 'Search: remove item aria label' }
-            )}
-            className='news-form__remove-selection-button'
-            iconRight={<IconCross />}
-            variant='supplementary'
+  const filters: ReactElement<HTMLLIElement>[] = [];
+  [SearchComponents.NEWS_GROUPS, SearchComponents.NEIGHBOURHOODS, SearchComponents.TOPIC].forEach((key) => {
+    if (searchState[key]?.value?.length) {
+      searchState[key].value.forEach((value: OptionType) =>
+        filters.push(
+          <li
+            className='content-tags__tags__tag content-tags__tags--interactive'
+            key={`${key}-${value.value}`}
+            onClick={() => clearSelection(value, key)}
           >
-            {option.value}
-          </Button>
-        </li>
+            <Button
+              aria-label={Drupal.t(
+                'Remove @item from search results',
+                { '@item': value.value },
+                { context: 'Search: remove item aria label' }
+              )}
+              className='news-form__remove-selection-button'
+              iconRight={<IconCross />}
+              variant='supplementary'
+            >
+              {value.value}
+            </Button>
+          </li>
+        )
       );
-    });
+    }
   });
 
   return (
     <div className='news-form__selections-wrapper'>
       <ul className='news-form__selections-container content-tags__tags'>
-        {transformedFilters}
+        {filters}
         <li className='news-form__clear-all'>
           <Button
-            aria-hidden={transformedFilters.length ? 'true' : 'false'}
+            aria-hidden={filters.length ? 'true' : 'false'}
             className='news-form__clear-all-button'
             iconLeft={<IconCross className='news-form__clear-all-icon' />}
             onClick={clearSelections}
-            style={transformedFilters.length ? {} : { visibility: 'hidden' }}
+            style={filters.length ? {} : { visibility: 'hidden' }}
             variant='supplementary'
           >
             {Drupal.t('Clear selections', {}, { context: 'News archive clear selections' })}
@@ -66,4 +68,12 @@ const SelectionsContainer = ({ clearSelection, clearSelections, filters }: Selec
   );
 };
 
-export default SelectionsContainer;
+const updateSelections = (prev: SelectionsContainerProps, next: SelectionsContainerProps) => {
+  if (prev.searchState[SearchComponents.SUBMIT]?.value === next.searchState[SearchComponents.SUBMIT]?.value) {
+    return true;
+  }
+
+  return false;
+};
+
+export default memo(SelectionsContainer, updateSelections);

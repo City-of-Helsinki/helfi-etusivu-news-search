@@ -1,17 +1,21 @@
 import { Button } from 'hds-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import IndexFields from '../../enum/IndexFields';
 import SearchComponents from '../../enum/SearchComponents';
+import stateToParams from '../../helpers/Params';
+import getQuery from '../../helpers/Query';
 import { useLanguageQuery } from '../../hooks/useLanguageQuery';
-import type BooleanQuery from '../../types/BooleanQuery';
-import { TermQuery } from '../../types/BooleanQuery';
+import useSearchParams from '../../hooks/useSearchParams';
+import OptionType from '../../types/OptionType';
 
 type SearchStateItem = {
-  value: Array<string>;
+  aggregations?: any;
+  value: OptionType[];
 };
 
 type Props = {
+  initialized: boolean;
   searchState: {
     [key: string]: SearchStateItem;
   };
@@ -24,64 +28,29 @@ export const ComponentMap = {
   [SearchComponents.NEWS_GROUPS]: `${IndexFields.FIELD_NEWS_GROUPS}.keyword`,
 };
 
-export const SubmitButton = ({ searchState, setQuery }: Props) => {
+export const SubmitButton = ({ initialized, searchState, setQuery }: Props) => {
   const [mounted, setMounted] = useState<boolean>(false);
   const languageFilter = useLanguageQuery();
-  const getQuery = useCallback(() => {
-    let query: BooleanQuery = {
-      bool: {
-        must: [],
-        filter: languageFilter.bool.filter,
-      },
-    };
+  const [, updateParams] = useSearchParams();
 
-    Object.keys(ComponentMap).forEach((key: string) => {
-      const state = searchState[key] || null;
-      const should: TermQuery[] = [];
-
-      if (state && state.value) {
-        state.value.forEach((value: string) =>
-          should.push({
-            term: {
-              [ComponentMap[key]]: value,
-            },
-          })
-        );
-      }
-
-      if (should.length && query.bool?.must) {
-        query.bool.must.push({ bool: { should: should, minimum_should_match: 1 } });
-      }
-    });
-
-    let result = {
-      query: query,
-      value: 0,
-    };
-
-    if (query.bool?.must?.length) {
-      result.value = query.bool.must.length;
-    }
-
-    return result;
-  }, [languageFilter, searchState]);
+  const onClick = () => {
+    setQuery(getQuery(searchState, languageFilter));
+    updateParams(stateToParams(searchState));
+  };
 
   useEffect(() => {
-    if (mounted) {
-      return;
+    if (initialized && !mounted) {
+      setQuery(getQuery(searchState, languageFilter));
+      setMounted(true);
     }
-
-    setQuery(getQuery());
-    setMounted(true);
-  }, [getQuery, setQuery, mounted, setMounted]);
+  }, [getQuery, initialized, mounted, setMounted, setQuery]);
 
   return (
     <Button
       className='news-form__submit-button'
+      disabled={!initialized}
       type='submit'
-      onClick={() => {
-        setQuery(getQuery());
-      }}
+      onClick={onClick}
       variant='primary'
     >
       {Drupal.t('Filter')}

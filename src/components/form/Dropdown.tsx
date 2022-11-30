@@ -1,6 +1,6 @@
 import { Combobox } from 'hds-react';
 import type { ComboboxProps } from 'hds-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import useAggregations from '../../hooks/useAggregations';
 import type { Aggregations } from '../../types/Aggregations';
@@ -11,12 +11,14 @@ type DropdownProps = Omit<
   'options' | 'clearButtonAriaLabel' | 'selectedItemRemoveButtonAriaLabel' | 'toggleButtonAriaLabel'
 > & {
   aggregations: Aggregations;
+  componentId: string;
+  initialValue: string[];
   label: string;
   weight?: number;
   indexKey: string;
+  initialize: Function;
+  searchState: any;
   setQuery: Function;
-  setValue: Function;
-  value: OptionType[];
   clearButtonAriaLabel?: string;
   selectedItemRemoveButtonAriaLabel?: string;
   toggleButtonAriaLabel?: string;
@@ -24,26 +26,49 @@ type DropdownProps = Omit<
 
 export const Dropdown = ({
   aggregations,
+  componentId,
   indexKey,
+  initialize,
+  initialValue,
   label,
   weight,
   placeholder,
+  searchState,
   setQuery,
-  setValue,
-  value,
   clearButtonAriaLabel = Drupal.t('Clear selection', {}, { context: 'News archive clear button aria label' }),
   selectedItemRemoveButtonAriaLabel = Drupal.t('Remove item', {}, { context: 'News archive remove item aria label' }),
   toggleButtonAriaLabel = Drupal.t('Open the combobox', {}, { context: 'News archive open dropdown aria label' }),
 }: DropdownProps) => {
   const options: OptionType[] = useAggregations(aggregations, indexKey);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (!value || !value.length) {
-      setQuery({ value: null });
-    } else {
-      setQuery({ value: value.map((option: OptionType) => option.value) });
+    if (loading && aggregations && options) {
+      if (!initialValue.length) {
+        initialize(componentId);
+        setLoading(false);
+        return;
+      }
+
+      const values: OptionType[] = [];
+
+      initialValue.forEach((value: string) => {
+        const option = options.find((option) => option.value.toLocaleLowerCase() === value);
+
+        if (option) {
+          values.push(option);
+        }
+      });
+
+      setQuery({
+        value: values,
+      });
+      initialize(componentId);
+      setLoading(false);
     }
-  }, [value, setQuery]);
+  }, [aggregations, componentId, initialize, initialValue, loading, options, setQuery]);
+
+  const value: OptionType[] = searchState[componentId]?.value || [];
 
   return (
     <div className='news-form__filter'>
@@ -54,21 +79,24 @@ export const Dropdown = ({
         <Combobox
           className='news-form__combobox'
           clearButtonAriaLabel={clearButtonAriaLabel}
+          disabled={loading}
           label={label}
           options={options}
           onChange={(value: OptionType[]) => {
-            setValue(value);
+            setQuery({
+              value: value,
+            });
           }}
           placeholder={placeholder}
           multiselect={true}
           selectedItemRemoveButtonAriaLabel={selectedItemRemoveButtonAriaLabel}
           toggleButtonAriaLabel={toggleButtonAriaLabel}
-          value={value}
           theme={{
             '--focus-outline-color': 'var(--hdbt-color-black)',
             '--multiselect-checkbox-background-selected': 'var(--hdbt-color-black)',
             '--placeholder-color': 'var(--hdbt-color-black)',
           }}
+          value={value}
         />
       </div>
     </div>

@@ -12,9 +12,16 @@ type PaginationProps = {
 };
 
 export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }: PaginationProps) => {
-  const setPageWithPrevent = (e: React.MouseEvent<HTMLElement>, index: number) => {
+  // @todo: Enable when issues with pagination are resolved
+  // const [, updateParams] = useSearchParams();
+
+  const updatePage = (e: React.MouseEvent<HTMLElement>, index: number) => {
     e.preventDefault();
     setPage(index);
+    // @todo: Enable when issues with pagination are resolved
+    // updateParams({
+    //   page: index + 1,
+    // });
   };
 
   const getPagination = (current: number, pages: number, totalPages: number) => {
@@ -71,7 +78,7 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
             href={`?${SearchComponents.RESULTS}=${currentPage}`}
             onClick={(e) => {
               if (prevPageExists) {
-                setPageWithPrevent(e, currentPage - 1);
+                updatePage(e, currentPage - 1);
               }
             }}
             title={
@@ -108,7 +115,7 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
                   href={`?${SearchComponents.RESULTS}=1`}
                   onClick={(e) => {
                     if (prevPageExists) {
-                      setPageWithPrevent(e, 0);
+                      updatePage(e, 0);
                     }
                   }}
                   className='hds-pagination__item-link'
@@ -129,7 +136,7 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
                 aria-label={Drupal.t('Go to page @key', { '@key': pageIndex + 1 })}
                 href={`?${SearchComponents.RESULTS}=${pageIndex + 1}`}
                 className='hds-pagination__item-link'
-                onClick={(e) => setPageWithPrevent(e, pageIndex)}
+                onClick={(e) => updatePage(e, pageIndex)}
                 key={pageIndex}
               >
                 {pageIndex + 1}
@@ -150,7 +157,7 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
                 aria-label={Drupal.t('Go to page @key', { '@key': pageIndex + 1 })}
                 href={`?${SearchComponents.RESULTS}=${pageIndex + 1}`}
                 className='hds-pagination__item-link'
-                onClick={(e) => setPageWithPrevent(e, pageIndex)}
+                onClick={(e) => updatePage(e, pageIndex)}
                 key={pageIndex}
               >
                 {pageIndex + 1}
@@ -167,7 +174,7 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
               <li>
                 <a
                   href={`?${SearchComponents.RESULTS}=${totalPages - 1}`}
-                  onClick={(e) => setPageWithPrevent(e, totalPages - 1)}
+                  onClick={(e) => updatePage(e, totalPages - 1)}
                   className='hds-pagination__item-link'
                 >
                   {totalPages}
@@ -186,7 +193,7 @@ export const Pagination = ({ pages, totalPages, currentPage, setPage, setSize }:
             href={`?${SearchComponents.RESULTS}=${currentPage + 2}`}
             onClick={(e) => {
               if (nextPageExists) {
-                setPageWithPrevent(e, currentPage + 1);
+                updatePage(e, currentPage + 1);
               }
             }}
             title={

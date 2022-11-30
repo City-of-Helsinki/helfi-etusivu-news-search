@@ -25,6 +25,9 @@ const BaseContainer = ({ children }: Props) => {
           fontFamily: 'inherit',
         },
       }}
+      // Param props set only to prevent functionality
+      getSearchParams={() => ''}
+      setSearchParams={() => ''}
     >
       {children}
     </ReactiveBase>

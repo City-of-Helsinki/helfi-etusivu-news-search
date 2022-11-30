@@ -19,7 +19,6 @@ const ResultsContainer = () => {
   const dimensions = useWindowDimensions();
   const languageFilter = useLanguageQuery();
   const resultsWrapper = useRef<HTMLDivElement | null>(null);
-
   const onPageChange = () => {
     if (!resultsWrapper.current) {
       return;
@@ -67,7 +66,6 @@ const ResultsContainer = () => {
           showResultStats={false}
           sortBy={'desc'}
           size={10}
-          URLParams={true}
         />
       </div>
       <MostReadNews />
